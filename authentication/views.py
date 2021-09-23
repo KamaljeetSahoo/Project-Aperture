@@ -7,6 +7,9 @@ def login_view(request):
     form = LoginForm(request.POST or None)
     msg = None
 
+    if request.user.is_authenticated:
+        return redirect('/')
+
     if request.method == "POST":
         if form.is_valid():
             username = form.cleaned_data.get("username")
