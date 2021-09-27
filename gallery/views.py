@@ -26,3 +26,6 @@ def contributeImageView(request):
         return render(request, 'pages/image_contribute.html', context=context)
     else:
         return redirect('login')
+
+def landig_view(request):
+    return render(request, 'pages/landing_page.html')
