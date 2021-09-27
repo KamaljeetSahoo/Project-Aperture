@@ -28,4 +28,8 @@ def contributeImageView(request):
         return redirect('login')
 
 def landig_view(request):
-    return render(request, 'pages/landing_page.html')
+    pics = Picture.objects.all()
+    context = {
+        'pics': pics
+    }
+    return render(request, 'pages/landing_page.html', context=context)

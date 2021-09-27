@@ -32,38 +32,29 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-md-4">
-					<div class="card card-post card-round">
-						<img class="card-img-top" src="/static/assets/img/profile2.jpg" alt="Card image cap">
-						<div class="card-body">
-							<div class="d-flex">
-								<div class="avatar">
-									<img src="/static/assets/img/profile2.jpg" alt="..." class="avatar-img rounded-circle">
-								</div>
-								<div class="info-post ml-2">
-									<p class="username">Joko Subianto</p>
-									<p class="date text-muted">20 Jan 18</p>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="card card-post card-round">
-						<img class="card-img-top" src="/static/assets/img/blogpost.jpg" alt="Card image cap">
-						<div class="card-body">
-							<div class="d-flex">
-								<div class="avatar">
-									<img src="/static/assets/img/profile2.jpg" alt="..." class="avatar-img rounded-circle">
-								</div>
-								<div class="info-post ml-2">
-									<p class="username">Joko Subianto</p>
-									<p class="date text-muted">20 Jan 18</p>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+                {% for pic in pics %}
+                    <div class="col-md-4">
+                        <div class="card card-post card-round">
+                            <img class="card-img-top" src="{{pic.image.url}}" alt="Card image cap">
+                            <div class="card-body">
+                                <div class="d-flex">
+                                    <div class="info-post ml-2">
+                                        <a href="#" class="btn btn-rounded btn-primary btn-sm mt-1">Tag</a>
+                                        <a href="#" class="btn btn-rounded btn-primary btn-sm mt-1">Tag</a>
+                                        <a href="#" class="btn btn-rounded btn-primary btn-sm mt-1">Tag</a>
+                                        <a href="#" class="btn btn-rounded btn-primary btn-sm mt-1">Tag</a>
+                                        <a href="#" class="btn btn-rounded btn-primary btn-sm mt-1">Tag</a>
+                                        <a href="#" class="btn btn-rounded btn-primary btn-sm mt-1">Tag</a>
+                                        <a href="#" class="btn btn-rounded btn-primary btn-sm mt-1">Tag</a>
+                                        <a href="#" class="btn btn-rounded btn-primary btn-sm mt-1">Tag</a>
+                                        <a href="#" class="btn btn-rounded btn-primary btn-sm mt-1">Tag</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+				
 			</div>
 		</div>
 	</div>
