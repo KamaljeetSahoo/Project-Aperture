@@ -1,0 +1,46 @@
+{% extends "layouts/base1.html" %}
+
+{% block title %}Aperture{% endblock title %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <div class="content">
+		<div class="page-inner">
+			<!-- Customized Card -->
+			<h4 class="page-title">Single Image View</h4>
+			<div class="row">
+				<div class="col-md-4">
+					<div class="card card-post card-round">
+						<img class="card-img-top" src="{{img.image.url}}" alt="Card image cap">
+						<div class="card-body">
+							<div class="d-flex">
+								<div class="info-post ml-2">
+									<a href="#" class="btn btn-rounded btn-primary btn-sm mt-1">Tag</a>
+									<a href="#" class="btn btn-rounded btn-primary btn-sm mt-1">Tag</a>
+									<a href="#" class="btn btn-rounded btn-primary btn-sm mt-1">Tag</a>
+									<a href="#" class="btn btn-rounded btn-primary btn-sm mt-1">Tag</a>
+									<a href="#" class="btn btn-rounded btn-primary btn-sm mt-1">Tag</a>
+									<a href="#" class="btn btn-rounded btn-primary btn-sm mt-1">Tag</a>
+									<a href="#" class="btn btn-rounded btn-primary btn-sm mt-1">Tag</a>
+									<a href="#" class="btn btn-rounded btn-primary btn-sm mt-1">Tag</a>
+									<a href="#" class="btn btn-rounded btn-primary btn-sm mt-1">Tag</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+
+<script src="/static/assets/js/setting-demo.js"></script>
+
+{% endblock javascripts %}

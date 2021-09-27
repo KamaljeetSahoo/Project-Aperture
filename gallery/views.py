@@ -33,3 +33,10 @@ def landig_view(request):
         'pics': pics
     }
     return render(request, 'pages/landing_page.html', context=context)
+
+def single_image_view(request, image_id):
+    image = Picture.objects.get(id=image_id)
+    context = {
+        'img': image
+    }
+    return render(request, 'pages/single_view.html', context=context)
