@@ -18,7 +18,7 @@
 						<div class="card-body">
 							<div class="d-flex">
 								<div class="info-post ml-2">
-									<a href="#" class="btn btn-rounded btn-primary btn-sm mt-1">Tag</a>
+									<a href="#" class="btn btn-rounded btn-primary btn-sm mt-1">{{pic.tag.all}}</a>
 									<a href="#" class="btn btn-rounded btn-primary btn-sm mt-1">Tag</a>
 									<a href="#" class="btn btn-rounded btn-primary btn-sm mt-1">Tag</a>
 									<a href="#" class="btn btn-rounded btn-primary btn-sm mt-1">Tag</a>
@@ -32,7 +32,7 @@
 						</div>
 					</div>
 				</div>
-                {% for pic in pics %}
+                {% for pic, tag in img %}
                 <div class="col-md-4">
                     <div class="card card-post card-round">
                         <a href="/image/{{pic.id}}/">
@@ -41,15 +41,9 @@
                         <div class="card-body">
                             <div class="d-flex">
                                 <div class="info-post ml-2">
-                                    <a href="#" class="btn btn-rounded btn-primary btn-sm mt-1">Tag</a>
-                                    <a href="#" class="btn btn-rounded btn-primary btn-sm mt-1">Tag</a>
-                                    <a href="#" class="btn btn-rounded btn-primary btn-sm mt-1">Tag</a>
-                                    <a href="#" class="btn btn-rounded btn-primary btn-sm mt-1">Tag</a>
-                                    <a href="#" class="btn btn-rounded btn-primary btn-sm mt-1">Tag</a>
-                                    <a href="#" class="btn btn-rounded btn-primary btn-sm mt-1">Tag</a>
-                                    <a href="#" class="btn btn-rounded btn-primary btn-sm mt-1">Tag</a>
-                                    <a href="#" class="btn btn-rounded btn-primary btn-sm mt-1">Tag</a>
-                                    <a href="#" class="btn btn-rounded btn-primary btn-sm mt-1">Tag</a>
+                                    {% for t in tag %}
+                                    <a href="#" class="btn btn-rounded btn-primary btn-sm mt-1">{{t.tag_name}}</a>
+                                    {% endfor %}
                                 </div>
                             </div>
                         </div>

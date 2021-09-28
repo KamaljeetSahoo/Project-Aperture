@@ -50,8 +50,12 @@ def contributeImageView(request):
 def homepage(request):
     if request.user.is_authenticated:
         pics = Picture.objects.all()
+        final_list = []
+        for img in pics:
+            final_list.append([img, list(img.tag.all())])
+        print(list(img.tag.all())[-1].tag_name)
         context = {
-            'pics': pics
+            'img': final_list
         }
         return render(request, 'pages/landing_page.html', context=context)
     return redirect('login')
