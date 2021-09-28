@@ -53,7 +53,6 @@ def homepage(request):
         final_list = []
         for img in pics:
             final_list.append([img, list(img.tag.all())])
-        print(list(img.tag.all())[-1].tag_name)
         context = {
             'img': final_list
         }
@@ -63,6 +62,7 @@ def homepage(request):
 def single_image_view(request, image_id):
     image = Picture.objects.get(id=image_id)
     context = {
-        'img': image
+        'img': image,
+        'tags': image.tag.all()
     }
     return render(request, 'pages/single_view.html', context=context)

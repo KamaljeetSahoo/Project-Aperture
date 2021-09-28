@@ -18,15 +18,9 @@
 						<div class="card-body">
 							<div class="d-flex">
 								<div class="info-post ml-2">
-									<a href="#" class="btn btn-rounded btn-primary btn-sm mt-1">Tag</a>
-									<a href="#" class="btn btn-rounded btn-primary btn-sm mt-1">Tag</a>
-									<a href="#" class="btn btn-rounded btn-primary btn-sm mt-1">Tag</a>
-									<a href="#" class="btn btn-rounded btn-primary btn-sm mt-1">Tag</a>
-									<a href="#" class="btn btn-rounded btn-primary btn-sm mt-1">Tag</a>
-									<a href="#" class="btn btn-rounded btn-primary btn-sm mt-1">Tag</a>
-									<a href="#" class="btn btn-rounded btn-primary btn-sm mt-1">Tag</a>
-									<a href="#" class="btn btn-rounded btn-primary btn-sm mt-1">Tag</a>
-									<a href="#" class="btn btn-rounded btn-primary btn-sm mt-1">Tag</a>
+                                    {% for tag in tags %}
+									<a href="#" class="btn btn-rounded btn-primary btn-sm mt-1">{{tag.tag_name}}</a>
+                                    {% endfor %}
 								</div>
 							</div>
 						</div>
