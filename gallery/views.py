@@ -1,24 +1,44 @@
 from django.shortcuts import render, redirect
-from .models import Picture
+from .models import Picture, Tag
 from .forms import PictureForm
 
 # Create your views here.
+import random
+alpha = []
+for i in range(26):
+    alpha += [chr(ord('a')+ i)]
+
+def generate(n):
+    res = []
+    for i in range(n):
+        n = random.randint(3,8)
+        string =  ''.join(random.sample(alpha,k=n))
+        res+= [string]
+    return res
+
+
 def contributeImageView(request):
     if request.user.is_authenticated:
-        form = PictureForm()
-        context = {
-            'form' : form
-        }
         if request.method == "POST":
             form = PictureForm(request.POST, request.FILES)
             if form.is_valid():
                 image = form.cleaned_data.get('image')
+                generated_tags = generate(4)
+                new_tags = []
+                for tag in generated_tags:
+                    if not Tag.objects.filter(tag_name = tag).exists():
+                        new_tag = Tag(tag_name = tag)
+                        new_tag.save()
+                        new_tags.append(new_tag)
+                    else:
+                        t = Tag.objects.get(tag_name = tag)
+                        new_tags.append(t)
                 obj = Picture(image=image)
                 obj.save()
-        
+                for tag in new_tags:
+                    obj.tag.add(tag)
         else:
             form = PictureForm()
-        
         context = {
             'form' : form,
         }
@@ -27,12 +47,14 @@ def contributeImageView(request):
     else:
         return redirect('login')
 
-def landig_view(request):
-    pics = Picture.objects.all()
-    context = {
-        'pics': pics
-    }
-    return render(request, 'pages/landing_page.html', context=context)
+def homepage(request):
+    if request.user.is_authenticated:
+        pics = Picture.objects.all()
+        context = {
+            'pics': pics
+        }
+        return render(request, 'pages/landing_page.html', context=context)
+    return redirect('login')
 
 def single_image_view(request, image_id):
     image = Picture.objects.get(id=image_id)

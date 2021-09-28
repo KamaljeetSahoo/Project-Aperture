@@ -30,11 +30,6 @@ def login_view(request):
         
     return render(request, "pages/login_page.html", context=context)
 
-def homepage(request):
-    if not request.user.is_authenticated:
-        return redirect("/login")
-    return render(request, 'pages/homepage.html')
-
 def signup_view(request):
     msg = None
     success = None
