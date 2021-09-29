@@ -1,4 +1,5 @@
 from django.db import models
+from PIL import Image
 
 # Create your models here.
 class Tag(models.Model):
@@ -10,3 +11,11 @@ class Tag(models.Model):
 class Picture(models.Model):
     image = models.ImageField(upload_to = 'image_repository')
     tag = models.ManyToManyField(Tag, blank=True)
+
+    def save(self):
+        super().save()
+        img = Image.open(self.image.path)
+        if img.height > 300 or img.width > 300:
+            size = (300, 300)
+            img.thumbnail(size=size)
+            img.save(self.image.path)
