@@ -5,5 +5,5 @@ urlpatterns = [
     path('contribute/', contributeImageView, name="ImageContribute"),
     path('', homepage, name="home"),
     path('image/<int:image_id>/', single_image_view),
-    path('after_upload/', after_upload_view, name="after_upload")
+    path('after_upload/<int:image_id>/', after_upload_view, name="after_upload")
 ]

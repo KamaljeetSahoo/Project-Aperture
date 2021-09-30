@@ -6,7 +6,7 @@
     <div class="content">
         <div class="page-inner">
             <h4 class="page-title">Image Upload</h4>
-            <form method="POST" enctype="multipart/form-data">
+            <form method="POST" enctype="multipart/form-data" action="/contribute/">
                 {% csrf_token %}
                 {{ form.as_p }}
                 <button type="submit" value="Upload" class="btn btn-primary btn-md">Upload</button>

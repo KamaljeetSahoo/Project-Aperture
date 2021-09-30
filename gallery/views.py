@@ -38,6 +38,8 @@ def contributeImageView(request):
                 obj.save()
                 for tag in new_tags:
                     obj.tag.add(tag)
+
+                return redirect("after_upload", image_id=obj.id)
         else:
             form = PictureForm()
         context = {
@@ -48,8 +50,11 @@ def contributeImageView(request):
     else:
         return redirect('login')
 
-def after_upload_view(request):
-    return render(request, 'pages/edit_tags_intermediate.html')
+def after_upload_view(request, image_id):
+    context = {
+        'img': Picture.objects.get(id=image_id)
+    }
+    return render(request, 'pages/edit_tags_intermediate.html', context=context)
 
 def homepage(request):
     if request.user.is_authenticated:
