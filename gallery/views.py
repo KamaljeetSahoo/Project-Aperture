@@ -48,6 +48,9 @@ def contributeImageView(request):
     else:
         return redirect('login')
 
+def after_upload_view(request):
+    return render(request, 'pages/edit_tags_intermediate.html')
+
 def homepage(request):
     if request.user.is_authenticated:
         pics = Picture.objects.all()
