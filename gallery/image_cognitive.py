@@ -1,25 +1,29 @@
-########### Python 3.2 #############
-import http.client, urllib.request, urllib.parse, urllib.error
+from azure.cognitiveservices.vision.computervision import ComputerVisionClient
+from azure.cognitiveservices.vision.computervision.models import OperationStatusCodes
+from azure.cognitiveservices.vision.computervision.models import VisualFeatureTypes
+from msrest.authentication import CognitiveServicesCredentials
 
-headers = {
-    # Request headers
-    'Content-Type': 'application/json',
-    'Ocp-Apim-Subscription-Key': '{subscription key}',
-}
+from array import array
+import os
+from PIL import Image
+import sys
+import time
 
-params = urllib.parse.urlencode({
-    # Request parameters
-    'visualFeatures': 'Categories',
-    'details': '{string}',
-    'language': 'en',
-})
+'''
+Authenticate
+Authenticates your credentials and creates a client.
+'''
+subscription_key = ""
+endpoint = ""
 
-try:
-    conn = http.client.HTTPSConnection('westus.api.cognitive.microsoft.com')
-    conn.request("POST", "/vision/v1.0/analyze?%s" % params, "{body}", headers)
-    response = conn.getresponse()
-    data = response.read()
-    print(data)
-    conn.close()
-except Exception as e:
-    print("[Errno {0}] {1}".format(e.errno, e.strerror))
+cv_client = ComputerVisionClient(endpoint, CognitiveServicesCredentials(subscription_key))
+
+image_url = "https://i.imgur.com/gJTXssF.jpg"
+
+response = cv_client.describe_image(
+    url= image_url,
+    raw=True
+)
+
+
+print(response.response.json())

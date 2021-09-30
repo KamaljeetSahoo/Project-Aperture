@@ -24,6 +24,7 @@ def contributeImageView(request):
             if form.is_valid():
                 image = form.cleaned_data.get('image')
                 generated_tags = generate(4)
+                print(generated_tags)
                 new_tags = []
                 for tag in generated_tags:
                     if not Tag.objects.filter(tag_name = tag).exists():
