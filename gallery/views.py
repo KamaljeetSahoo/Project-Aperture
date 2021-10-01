@@ -51,10 +51,12 @@ def contributeImageView(request):
         return redirect('login')
 
 def after_upload_view(request, image_id):
-    context = {
-        'img': Picture.objects.get(id=image_id)
-    }
-    return render(request, 'pages/edit_tags_intermediate.html', context=context)
+    if request.user.is_authenticated:
+        context = {
+            'img': Picture.objects.get(id=image_id)
+        }
+        return render(request, 'pages/edit_tags_intermediate.html', context=context)
+    return redirect("login")
 
 def homepage(request):
     if request.user.is_authenticated:
@@ -66,29 +68,35 @@ def homepage(request):
     return redirect('login')
 
 def single_image_view(request, image_id):
-    image = Picture.objects.get(id=image_id)
-    context = {
-        'img': image,
-        'tags': image.tag.all()
-    }
-    return render(request, 'pages/single_view.html', context=context)
+    if request.user.is_authenticated:
+        image = Picture.objects.get(id=image_id)
+        context = {
+            'img': image,
+            'tags': image.tag.all()
+        }
+        return render(request, 'pages/single_view.html', context=context)
+    return redirect("login")
 
 def delete_tag_from_image(request, tag_id, image_id):
-    img = Picture.objects.get(id=image_id)
-    tag = Tag.objects.get(id=tag_id)
-    img.tag.remove(tag)
-    return redirect("edit_image", image_id=image_id)
+    if request.user.is_authenticated:
+        img = Picture.objects.get(id=image_id)
+        tag = Tag.objects.get(id=tag_id)
+        img.tag.remove(tag)
+        return redirect("edit_image", image_id=image_id)
+    return redirect("login")
 
 def add_tag_to_image(request, image_id):
-    img = Picture.objects.get(id = image_id)
-    new_tag_name = request.POST['new_tag']
-    if not Tag.objects.filter(tag_name = new_tag_name).exists():
-        tag = Tag(tag_name = new_tag_name)
-        tag.save()
-        img.tag.add(tag)
-        return redirect("edit_image", image_id=image_id)
+    if request.user.is_authenticated:
+        img = Picture.objects.get(id = image_id)
+        new_tag_name = request.POST['new_tag']
+        if not Tag.objects.filter(tag_name = new_tag_name).exists():
+            tag = Tag(tag_name = new_tag_name)
+            tag.save()
+            img.tag.add(tag)
+            return redirect("edit_image", image_id=image_id)
+        else:
+            tag = Tag.objects.get(tag_name = new_tag_name)
+            img.tag.add(tag)
+            return redirect("edit_image", image_id=image_id)
     else:
-        tag = Tag.objects.get(tag_name = new_tag_name)
-        img.tag.add(tag)
-        return redirect("edit_image", image_id=image_id)
-    return redirect("edit_image", image_id=image_id)
+        return redirect("login")
