@@ -100,3 +100,15 @@ def add_tag_to_image(request, image_id):
             return redirect("edit_image", image_id=image_id)
     else:
         return redirect("login")
+
+def tag_based_image_search(request):
+    search = request.GET['search_tag']
+    print(search)
+    if len(search) == 0:
+        return redirect("home")
+    tag = Tag.objects.all().filter(tag_name = search)
+    print(tag)
+    context = {
+            'img': tag.picture_set.all()
+        }
+    return render(request, 'pages/search_results.html', context=context)
