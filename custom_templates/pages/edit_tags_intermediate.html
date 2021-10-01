@@ -38,12 +38,15 @@
                     <div class="d-flex">
                         <div class="info-post ml-2">
                             <div class="row text-center">
-                                <div class="col-md-6">
-                                    <input type="text" class="form-control">
-                                </div>
-                                <div class="col-md-6">
-                                    <button class="btn btn-rounded btn-primary btn-xl text-white">+</button>
-                                </div>
+                                <form method="POST" action="/add_tag_to_image/{{img.id}}/">
+                                    <div class="col-md-6">
+                                        {% csrf_token %}
+                                        <input type="text" name="new_tag" class="form-control">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input class="form-control btn btn-rounded btn-primary btn-xl text-white" value="+" type="submit">
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
