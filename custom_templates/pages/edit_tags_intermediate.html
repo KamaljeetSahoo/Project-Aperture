@@ -24,7 +24,7 @@
                             {% for tag in img.tag.all %}
                             <button class="btn btn-rounded btn-primary btn-md mt-3 mr-3">
                                 {{ tag.tag_name }} &nbsp;
-                                <a href="#" class="text-white">
+                                <a href="/delete_tag/{{tag.id}}/{{img.id}}/" class="text-white">
                                     <i class="fa fa-times"></i>
                                 </a>
                             </button>

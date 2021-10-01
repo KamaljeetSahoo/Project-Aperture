@@ -72,3 +72,9 @@ def single_image_view(request, image_id):
         'tags': image.tag.all()
     }
     return render(request, 'pages/single_view.html', context=context)
+
+def delete_tag_from_image(request, tag_id, image_id):
+    img = Picture.objects.get(id=image_id)
+    tag = Tag.objects.get(id=tag_id)
+    img.tag.remove(tag)
+    return redirect("edit_image", image_id=image_id)
