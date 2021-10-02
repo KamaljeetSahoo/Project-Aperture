@@ -3,18 +3,14 @@ from azure.cognitiveservices.vision.computervision.models import OperationStatus
 from azure.cognitiveservices.vision.computervision.models import VisualFeatureTypes
 from msrest.authentication import CognitiveServicesCredentials
 
-from array import array
-import os
-from PIL import Image
-import sys
-import time
+from decouple import config
 
 '''
 Authenticate
 Authenticates your credentials and creates a client.
 '''
-subscription_key = ""
-endpoint = ""
+subscription_key = config('SUBSCRIPTION_KEY')
+endpoint = config('ENDPOINT')
 
 cv_client = ComputerVisionClient(endpoint, CognitiveServicesCredentials(subscription_key))
 
