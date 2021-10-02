@@ -107,9 +107,14 @@ def tag_based_image_search(request):
     search = request.GET['search_tag']
     if len(search) == 0:
         return redirect("home")
-    tag = Tag.objects.get(tag_name = search)
+    tag = Tag.objects.filter(tag_name__startswith = search)
+    img = []
+    for t in tag:
+        img += list(t.picture_set.all())
+    if len(img) == 0:
+        return redirect('home')
     context = {
-            'img': tag.picture_set.all()
+            'img': img
         }
     return render(request, 'pages/search_results.html', context=context)
 
