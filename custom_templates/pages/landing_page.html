@@ -22,7 +22,7 @@
                             <div class="d-flex">
                                 <div class="info-post ml-2">
                                     {% for t in pic.tag.all %}
-                                    <a href="#" class="btn btn-rounded btn-primary btn-sm mt-1">{{t.tag_name}}</a>
+                                    <a href="/tag_click_search/{{t.id}}/" class="btn btn-rounded btn-primary btn-sm mt-1">{{t.tag_name}}</a>
                                     {% endfor %}
                                 </div>
                             </div>

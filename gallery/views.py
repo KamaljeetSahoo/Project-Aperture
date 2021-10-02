@@ -103,12 +103,17 @@ def add_tag_to_image(request, image_id):
 
 def tag_based_image_search(request):
     search = request.GET['search_tag']
-    print(search)
     if len(search) == 0:
         return redirect("home")
-    tag = Tag.objects.all().filter(tag_name = search)
-    print(tag)
+    tag = Tag.objects.get(tag_name = search)
     context = {
             'img': tag.picture_set.all()
         }
     return render(request, 'pages/search_results.html', context=context)
+
+def tag_click_search(request, tag_id):
+    tag = Tag.objects.get(id=tag_id)
+    context = {
+        'img': tag.picture_set.all()
+    }
+    return render(request, 'pages/tag_click_search.html', context=context)
