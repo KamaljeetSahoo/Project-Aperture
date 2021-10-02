@@ -1,20 +1,21 @@
 from django.shortcuts import render, redirect
 from .models import Picture, Tag
 from .forms import PictureForm
+from .utils import generate_tags
 
 # Create your views here.
-import random
-alpha = []
-for i in range(26):
-    alpha += [chr(ord('a')+ i)]
+# import random
+# alpha = []
+# for i in range(26):
+#     alpha += [chr(ord('a')+ i)]
 
-def generate(n):
-    res = []
-    for i in range(n):
-        n = random.randint(3,8)
-        string =  ''.join(random.sample(alpha,k=n))
-        res+= [string]
-    return res
+# def generate(n):
+#     res = []
+#     for i in range(n):
+#         n = random.randint(3,8)
+#         string =  ''.join(random.sample(alpha,k=n))
+#         res+= [string]
+#     return res
 
 
 def contributeImageView(request):
@@ -23,7 +24,10 @@ def contributeImageView(request):
             form = PictureForm(request.POST, request.FILES)
             if form.is_valid():
                 image = form.cleaned_data.get('image')
-                generated_tags = generate(4)
+                obj = Picture(image=image)
+                obj.save()
+
+                generated_tags = generate_tags(obj.image.url)
                 print(generated_tags)
                 new_tags = []
                 for tag in generated_tags:
@@ -34,12 +38,10 @@ def contributeImageView(request):
                     else:
                         t = Tag.objects.get(tag_name = tag)
                         new_tags.append(t)
-                obj = Picture(image=image)
-                obj.save()
                 for tag in new_tags:
                     obj.tag.add(tag)
 
-                return redirect("after_upload", image_id=obj.id)
+                return redirect("edit_image", image_id=obj.id)
         else:
             form = PictureForm()
         context = {
