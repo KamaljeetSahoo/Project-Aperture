@@ -105,16 +105,16 @@ def add_tag_to_image(request, image_id):
 
 def tag_based_image_search(request):
     search = request.GET['search_tag']
-    if len(search) == 0:
-        return redirect("home")
-    tag = Tag.objects.filter(tag_name__startswith = search)
+    search_keywords = search.split(" ")
     img = []
-    for t in tag:
-        img += list(t.picture_set.all())
+    for word in search_keywords:
+        tag = Tag.objects.filter(tag_name__startswith = word)
+        for t in tag:
+            img += list(t.picture_set.all())
     if len(img) == 0:
         return redirect('home')
     context = {
-            'img': img
+            'img': set(img)
         }
     return render(request, 'pages/search_results.html', context=context)
 
