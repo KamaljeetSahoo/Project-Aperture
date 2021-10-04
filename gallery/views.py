@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
+from django.http import HttpResponse
 from .models import Picture, Tag
 from .forms import PictureForm
-from .utils import generate_tags
+from .utils import generate_tags, reverse_image_generate_tags
 
 # Create your views here.
 # import random
@@ -28,7 +29,6 @@ def contributeImageView(request):
                 obj.save()
 
                 generated_tags = generate_tags(obj.image.url)
-                print(generated_tags)
                 new_tags = []
                 for tag in generated_tags:
                     if not Tag.objects.filter(tag_name = tag).exists():
@@ -124,3 +124,22 @@ def tag_click_search(request, tag_id):
         'img': tag.picture_set.all()
     }
     return render(request, 'pages/tag_click_search.html', context=context)
+
+def reverse_image_search(request):
+    if request.user.is_authenticated:
+        image = request.FILES['search_image']
+        generated_tags = reverse_image_generate_tags(image)
+        img = []
+        for tag in generated_tags:
+            out = Tag.objects.filter(tag_name__startswith = tag)
+            for t in out:
+                img += list(t.picture_set.all())
+        if len(img) == 0:
+            return HttpResponse("Image kichi nahin")
+        else:
+            context = {
+                'img': set(img)
+            }
+            return render(request, 'pages/search_results.html', context=context)
+    else:
+        return redirect('login')

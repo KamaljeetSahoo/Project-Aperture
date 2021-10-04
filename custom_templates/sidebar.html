@@ -38,25 +38,14 @@
             </div>
             <ul class="nav nav-primary">
                 <li class="nav-item {% if 'index' in segment %} active {% endif %}">
-                    <a data-toggle="collapse" href="#dashboard" class="collapsed" aria-expanded="false">
+                    <a  href="{% url 'home' %}">
                         <i class="fas fa-home"></i>
-                        <p>Dashboard</p>
-                        <span class="caret"></span>
+                        <p>Browse</p>
                     </a>
-                    <div class="collapse" id="dashboard">
-                        <ul class="nav nav-collapse">
-                            <li>
-                                <a href="{% url 'home' %}">
-                                    <span class="sub-item">Browse</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{% url 'ImageContribute' %}">
-                                    <span class="sub-item">Contribute Image</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+                    <a href="{% url 'ImageContribute' %}">
+                        <i class="fas fa-home"></i>
+                        <p>Contribute</p>
+                    </a>
                 </li>
                 <li class="nav-section">
                     <span class="sidebar-mini-icon">
