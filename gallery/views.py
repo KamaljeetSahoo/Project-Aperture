@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import Picture, Tag
 from .forms import PictureForm
-from .utils import generate_tags, reverse_image_generate_tags
+from .utils import generate_tags, reverse_image_generate_tags, correct_spell_and_meaning
 
 # Create your views here.
 # import random
@@ -104,7 +104,8 @@ def add_tag_to_image(request, image_id):
         return redirect("login")
 
 def tag_based_image_search(request):
-    search = request.GET['search_tag']
+    search = request.GET['search_tag'].lower()
+    search = correct_spell_and_meaning(search)
     search_keywords = search.split(" ")
     img = []
     for word in search_keywords:
