@@ -3,6 +3,7 @@ import requests
 from django.conf import settings
 from gingerit.gingerit import GingerIt
 
+
 ginger_parser = GingerIt()
 
 subscription_key = config('SUBSCRIPTION_KEY')
@@ -32,3 +33,68 @@ def reverse_image_generate_tags(image):
 
 def correct_spell_and_meaning(sentence):
     return ginger_parser.parse(sentence)['result'].lower()
+
+
+
+
+
+# =================== Aurtomation ===================
+import os
+from .models import Picture, Tag
+from PIL import Image
+from io import BytesIO
+from django.core.files.base import ContentFile
+
+def automate_upload(folder_path):
+    files = os.listdir(folder_path)
+    print("Process Started =============")
+    for file in files:
+        print(file)
+        if file[-3:] == 'jpg':
+            img_io = BytesIO()
+            path = os.path.join(folder_path, file)
+            curr_image = Image.open(path).convert('RGB')
+            curr_image.save(img_io, format="JPEG", quality=100)
+            img_content = ContentFile(img_io.getvalue(), file)
+            image_obj = Picture(image = img_content)
+            image_obj.save()
+            generated_tags = generate_tags(image_obj.image.url)
+            new_tags = []
+            for tag in generated_tags:
+                if not Tag.objects.filter(tag_name = tag).exists():
+                    new_tag = Tag(tag_name = tag)
+                    new_tag.save()
+                    new_tags.append(new_tag)
+                else:
+                    t = Tag.objects.get(tag_name = tag)
+                    new_tags.append(t)
+            for tag in new_tags:
+                image_obj.tag.add(tag)
+            os.remove(path)
+
+
+def auxilary_delete_files():
+    s = ['black and silver claw hammer.jpg',
+        'brown deer under tree.jpg',
+        'beige candle lot.jpg',
+        'assorted-type of vegetables.jpg',
+        'black traffic light.jpg',
+        'architectural photography of modern building.jpg',
+        'assorted candies.jpg',
+        'black and white cruise ship sailing on sea.jpg',
+        'black traffic light turned on during night time.jpg',
+        'art30.jpg',
+        'assorted pen and colored papers in organizer case.jpg',
+        'body of water during daytime.jpg',
+        'black digital device at 0 00.jpg',
+        'assorted planet decor.jpg',
+        'bunch of raspberry and grapes.jpg',
+        'brown and black floral curtains near green leafed trees.jpg',
+        'assorted-color paintbrushes.jpg',
+        'assorted petaled flowers centerpiece inside room.jpg',
+        'blue and white abstract painting.jpg',
+        'brown fox on snow field.jpg',
+        'brown makeup brush in front pink powder on glass case.jpg',]
+    
+    for i in s:
+        os.remove(os.path.join('/Users/kamaljeet/Desktop/test_images', i))
