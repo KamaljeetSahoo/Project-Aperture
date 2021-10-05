@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from .models import Picture, Tag
 from .forms import PictureForm
 from .utils import generate_tags, reverse_image_generate_tags, correct_spell_and_meaning
+import random
 
 # Create your views here.
 # import random
@@ -62,9 +63,10 @@ def after_upload_view(request, image_id):
 
 def homepage(request):
     if request.user.is_authenticated:
-        pics = Picture.objects.all()
+        pics = list(Picture.objects.all())
+        random.shuffle(pics)
         context = {
-            'img': pics
+            'img': pics[:100]
         }
         return render(request, 'pages/landing_page.html', context=context)
     return redirect('login')
