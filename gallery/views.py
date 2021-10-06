@@ -94,6 +94,8 @@ def recently_uploaded_view(request):
 def single_image_view(request, image_id):
     if request.user.is_authenticated:
         image = Picture.objects.get(id=image_id)
+        image.count_view+=1
+        image.save()
         context = {
             'img': image,
             'tags': image.tag.all()
