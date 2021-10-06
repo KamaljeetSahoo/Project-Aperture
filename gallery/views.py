@@ -169,6 +169,17 @@ def reverse_image_search(request):
     else:
         return redirect('login')
 
+def trending_image_view(request):
+    if request.user.is_authenticated:
+        pics = list(Picture.objects.all().order_by('-count_view'))
+        context = {
+            'img': pics[:20]
+        }
+        return render(request, 'pages/landing_page.html', context=context)
+    else:
+        return redirect('login')
+
+
 # def similar_word_api(request):
 #     words = ['cat', 'dog', 'wolf', 'bear', 'cats', 'apple', 'animal', 'photograph', 'kitten']
 #     ref_word = 'cat'
