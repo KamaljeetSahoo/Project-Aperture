@@ -178,14 +178,3 @@ def trending_image_view(request):
         return render(request, 'pages/landing_page.html', context=context)
     else:
         return redirect('login')
-
-
-# def similar_word_api(request):
-#     words = ['cat', 'dog', 'wolf', 'bear', 'cats', 'apple', 'animal', 'photograph', 'kitten']
-#     ref_word = 'cat'
-#     d = {'word': words, 'ref_word': ref_word}
-#     d = json.dumps(d)
-#     #headers = {'Content-Type': 'application/json', 'Accept':'application/json'}
-#     resp = requests.get('http://ce80-129-227-219-3.ngrok.io/word_similarity/', data={'hello': 'byee'})
-#     print(resp)
-#     return JsonResponse(resp.json(), safe=False)

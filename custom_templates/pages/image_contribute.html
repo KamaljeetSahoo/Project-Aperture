@@ -1,16 +1,24 @@
 {% extends "layouts/base1.html" %}
 
 {% block title %}Add Image{% endblock title %}
-
+{% load widget_tweaks %}
 {% block content %}
     <div class="content">
         <div class="page-inner">
             <h4 class="page-title">Image Upload</h4>
             <form method="POST" enctype="multipart/form-data" action="/contribute/">
                 {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit" value="Upload" class="btn btn-primary btn-md">Upload</button>
+                {% for field in form %}
+                    {{field|add_class:"form-control"|attr:"onchange:readURL(this)"}}
+                {% endfor %}
+                <button type="submit" value="Upload" class="btn btn-primary btn-md mt-5">Upload</button>
             </form>
+            
+            <div class="col-md-4 mt-5">
+                <div class="card card-post card-round" id="imageview" style="display: none;">
+                    <img id="blah" class="card-img-top" src="#" alt="Card image cap">
+                </div>
+            </div>
         </div>
     </div>
 {% endblock content %}
@@ -18,4 +26,20 @@
 
 {% block javascripts %}
 <script src="/static/assets/js/setting-demo.js"></script>
+<script>
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#blah')
+                    .attr('src', e.target.result);
+                var x = document.getElementById("imageview");
+                x.style.display = "flex";
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
 {% endblock javascripts %}
