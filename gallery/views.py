@@ -1,6 +1,7 @@
 from django.http.response import JsonResponse
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+import requests
 from .models import Picture, Tag
 from .forms import PictureForm
 from .utils import generate_tags, reverse_image_generate_tags, correct_spell_and_meaning
@@ -66,8 +67,13 @@ def after_upload_view(request, image_id):
 
 def homepage(request):
     if request.user.is_authenticated:
-        pics = list(Picture.objects.all())
-        random.shuffle(pics)
+        try:
+            page_no = int(request.GET['pg'])
+            pics = list(Picture.objects.all())
+            pics = pics[50*(page_no-1): 50*(page_no-1)+50]
+        except:
+            pics = list(Picture.objects.all())
+            random.shuffle(pics)
         context = {
             'img': pics[:50],
             'pages': [i+1 for i in range(TOTAL_PAGES)]

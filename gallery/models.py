@@ -11,6 +11,7 @@ class Tag(models.Model):
 class Picture(models.Model):
     image = models.ImageField(upload_to = 'image_repository')
     tag = models.ManyToManyField(Tag, blank=True)
+    count_view = models.IntegerField(default = 0, blank=True, null=True)
 
     def save(self):
         super().save()
