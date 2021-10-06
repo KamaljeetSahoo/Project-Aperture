@@ -33,6 +33,17 @@
 				
 			</div>
 		</div>
+        <div class="container">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                  <li class="page-item"><a class="page-link btn-primary text-white" href="#">Previous</a></li>
+                  {% for pg in pages %}
+                    <li class="page-item"><a class="page-link btn-primary text-white" href="#">{{ pg }}</a></li>
+                  {% endfor %}
+                  <li class="page-item"><a class="page-link btn-primary text-white" href="#">Next</a></li>
+                </ul>
+              </nav>              
+        </div>
 	</div>
 
 {% endblock content %}

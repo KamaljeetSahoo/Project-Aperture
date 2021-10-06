@@ -1,3 +1,4 @@
+from django.http.response import JsonResponse
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import Picture, Tag
@@ -19,6 +20,8 @@ import random
 #         res+= [string]
 #     return res
 
+TOTAL_IMAGES = len(list(Picture.objects.all()))
+TOTAL_PAGES = TOTAL_IMAGES//50
 
 def contributeImageView(request):
     if request.user.is_authenticated:
@@ -66,7 +69,18 @@ def homepage(request):
         pics = list(Picture.objects.all())
         random.shuffle(pics)
         context = {
-            'img': pics[:100]
+            'img': pics[:50],
+            'pages': [i+1 for i in range(TOTAL_PAGES)]
+        }
+        return render(request, 'pages/landing_page.html', context=context)
+    return redirect('login')
+
+def recently_uploaded_view(request):
+    if request.user.is_authenticated:
+        pics = list(Picture.objects.all())
+        pics = pics[::-1]
+        context = {
+            'img': pics[:20]
         }
         return render(request, 'pages/landing_page.html', context=context)
     return redirect('login')
@@ -146,3 +160,13 @@ def reverse_image_search(request):
             return render(request, 'pages/search_results.html', context=context)
     else:
         return redirect('login')
+
+# def similar_word_api(request):
+#     words = ['cat', 'dog', 'wolf', 'bear', 'cats', 'apple', 'animal', 'photograph', 'kitten']
+#     ref_word = 'cat'
+#     d = {'word': words, 'ref_word': ref_word}
+#     d = json.dumps(d)
+#     #headers = {'Content-Type': 'application/json', 'Accept':'application/json'}
+#     resp = requests.get('http://ce80-129-227-219-3.ngrok.io/word_similarity/', data={'hello': 'byee'})
+#     print(resp)
+#     return JsonResponse(resp.json(), safe=False)
