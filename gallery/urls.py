@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import contributeImageView, homepage, single_image_view, after_upload_view, delete_tag_from_image
 from .views import add_tag_to_image, tag_based_image_search, tag_click_search, reverse_image_search, recently_uploaded_view
-from .views import trending_image_view
+from .views import trending_image_view, tag_analytics_dashboard
 
 urlpatterns = [
     path('contribute/', contributeImageView, name="ImageContribute"),
@@ -14,5 +14,6 @@ urlpatterns = [
     path('image_tag_search/', tag_based_image_search, name="search_tag"),
     path('tag_click_search/<int:tag_id>/', tag_click_search, name="tag_click_search"),
     path('reverse_image_search/', reverse_image_search, name="ReverseImageSearch"),
-    path('most_viewed/', trending_image_view, name="trending_images")
+    path('most_viewed/', trending_image_view, name="trending_images"),
+    path('tag_analytics/', tag_analytics_dashboard, name="tag_dashboard")
 ]

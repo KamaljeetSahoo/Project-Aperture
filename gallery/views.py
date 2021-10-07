@@ -178,3 +178,20 @@ def trending_image_view(request):
         return render(request, 'pages/landing_page.html', context=context)
     else:
         return redirect('login')
+
+def tag_analytics_dashboard(request):
+    if request.user.is_authenticated:
+        tags = list(Tag.objects.all())
+        total_tags = len(tags)
+        recent_tags = tags[total_tags-50:]
+        most_used = sorted(tags, key=lambda x: len(x.picture_set.all()))[total_tags-50:]
+        context = {
+            'tags': tags,
+            'total_tags': total_tags,
+            'recent_tags': recent_tags,
+            'most_used_tags': most_used[::-1]
+        }
+        return render(request, 'pages/tag_analytics.html', context=context)
+    else:
+        return redirect('login')
+    

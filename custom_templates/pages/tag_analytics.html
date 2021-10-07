@@ -1,0 +1,52 @@
+{% extends "layouts/base1.html" %}
+
+{% block title %}Add Image{% endblock title %}
+{% load widget_tweaks %}
+{% block content %}
+    <div class="content">
+
+        <div class="page-inner">
+            <h4 class="page-title">Tag Analytics Dashboard</h4>
+        </div>
+        
+        <div class="col-sm-6 col-md-3">
+            <div class="card card-stats card-info card-round">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-5">
+                            <div class="icon-big text-center">
+                                <i class="flaticon-interface-6"></i>
+                            </div>
+                        </div>
+                        <div class="col-7 col-stats">
+                            <div class="numbers">
+                                <p class="card-category">Total Tags</p>
+                                <h4 class="card-title">{{total_tags}}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-inner text-center">
+            <h4 class="page-title">Recently Generated New Tags</h4>
+            {% for tag in recent_tags %}
+                <a href="/tag_click_search/{{tag.id}}/" class="btn btn-rounded btn-primary btn-sm mt-1">{{tag.tag_name}}</a>
+            {% endfor %}
+        </div>
+
+        <div class="page-inner text-center">
+            <h4 class="page-title">Top used tags</h4>
+            {% for tag in most_used_tags %}
+                <a href="/tag_click_search/{{tag.id}}/" class="btn btn-rounded btn-primary btn-sm mt-1">{{tag.tag_name}} -> {{tag.picture_set.all|length}}</a>
+            {% endfor %}
+        </div>
+
+    </div>
+{% endblock content %}
+
+
+{% block javascripts %}
+<script src="/static/assets/js/setting-demo.js"></script>
+{% endblock javascripts %}
