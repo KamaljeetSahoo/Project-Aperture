@@ -47,11 +47,18 @@ def correct_spell_and_meaning(sentence):
 def find_similar_tags(ref_word):
     tags = list(Tag.objects.all().values_list('tag_name', flat=True))
     res = []
-    for word in tags:
-        try:
-            res.append([word,glove_vectors.similarity(ref_word,word)])
-        except:
-            pass
+    if len(ref_word.split(" ")) == 1:
+        for word in tags:
+            try:
+                res.append([word,glove_vectors.similarity(ref_word,word)])
+            except:
+                pass
+    else:
+        for word in tags:
+            try:
+                res.append([word,glove_vectors.similarity(ref_word.split(" ")[-1],word)])
+            except:
+                pass
     res = sorted( res, key = lambda res : res[1],reverse = True )
     top_tags = []
     top = 8

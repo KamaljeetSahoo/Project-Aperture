@@ -19,12 +19,20 @@
             {% if corrected_flag %}
                 <h2><span class="text-danger">Did You Mean ???  &nbsp; &nbsp;</span><span class="text-warning">{{DidYouMean}}</span></h2>
                 <h4>Showing Results for <b class="text-primary">{{DidYouMean}}</b></h4>
+            {% elif generated_tags %}
+            <h3 class="text-success">Searching Images related to &nbsp; &nbsp;
+                {% for tag in generated_tags %}
+                    <a href="/tag_click_search/{{tag.id}}/" class="btn btn-rounded btn-md btn-primary mt-2 mb-4 mr-3" style="color: white !important;">{{tag.tag_name}}</a>
+                {% endfor %}
+            </h3>
             {% endif %}
+            {% if not generated_tags %}
 			<h3 class="text-success">Related Tags &nbsp; &nbsp;
                 {% for tag in related_tags %}
                     <a href="/tag_click_search/{{tag.id}}/" class="btn btn-rounded btn-md btn-primary mt-2 mb-4 mr-3" style="color: white !important;">{{tag.tag_name}}</a>
                 {% endfor %}
             </h3>
+            {% endif %}
 			<div class="row">
                 {% for pic in img %}
                 <div class="col-md-4">

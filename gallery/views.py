@@ -1,11 +1,11 @@
 from django.http.response import JsonResponse
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-import requests
 from .models import Picture, Tag
 from .forms import PictureForm
 from .utils import generate_tags, reverse_image_generate_tags, correct_spell_and_meaning, find_similar_tags
 import random
+import base64, io
 
 # Create your views here.
 # import random
@@ -23,6 +23,14 @@ import random
 
 TOTAL_IMAGES = len(list(Picture.objects.all()))
 TOTAL_PAGES = TOTAL_IMAGES//50
+
+def url_generator(im):
+    b = io.BytesIO()
+    im.save(b, format='PNG')
+    b = b.getvalue()
+    b64_im = base64.b64encode(b)
+    image_url = u'data:img/jpeg;base64,'+b64_im.decode('utf-8')
+    return image_url
 
 def contributeImageView(request):
     if request.user.is_authenticated:
@@ -176,20 +184,29 @@ def tag_click_search(request, tag_id):
 
 def reverse_image_search(request):
     if request.user.is_authenticated:
-        image = request.FILES['search_image']
-        generated_tags = reverse_image_generate_tags(image)
-        img = []
-        for tag in generated_tags:
-            out = Tag.objects.filter(tag_name__startswith = tag)
-            for t in out:
-                img += list(t.picture_set.all())
-        if len(img) == 0:
-            return HttpResponse("Image kichi nahin")
+        if 'search_image' in request.FILES:
+            image = request.FILES['search_image']
+            generated_tags = reverse_image_generate_tags(image)
+            img = []
+            db_tags = []
+            for t in generated_tags:
+                if Tag.objects.filter(tag_name = t).exists():
+                    db_tags.append(Tag.objects.get(tag_name = t))
+            for tag in generated_tags:
+                out = Tag.objects.filter(tag_name__startswith = tag)
+                for t in out:
+                    img += list(t.picture_set.all())
+            if len(img) == 0:
+                return HttpResponse("Image kichi nahin")
+            else:
+                context = {
+                    'img': set(img),
+                    'generated_tags': db_tags
+                }
+                return render(request, 'pages/search_results.html', context=context)
         else:
-            context = {
-                'img': set(img)
-            }
-            return render(request, 'pages/search_results.html', context=context)
+            print("ethiki asuchi")
+            return redirect('/')
     else:
         return redirect('login')
 
