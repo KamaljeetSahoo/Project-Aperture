@@ -10,24 +10,36 @@
     <div class="content">
 		<div class="page-inner">
 			<!-- Customized Card -->
-			<h4 class="page-title">Single Image View</h4>
 			<div class="row">
 				<div class="col-md-4">
 					<div class="card card-post card-round">
 						<img class="card-img-top" src="{{img.image.url}}" alt="Card image cap">
-						<div class="card-body">
+						<div class="card-body text-center">
+							<button class="btn btn-rounded btn-success btn-sm mt-1">Views: {{img.count_view}}</button>
 							<div class="d-flex">
 								<div class="info-post ml-2">
                                     {% for tag in tags %}
-									<a href="#" class="btn btn-rounded btn-primary btn-sm mt-1">{{tag.tag_name}}</a>
+									<a href="/tag_click_search/{{tag.id}}/" class="btn btn-rounded btn-primary btn-sm mt-1">{{tag.tag_name}}</a>
                                     {% endfor %}
 								</div>
 							</div>
 						</div>
 					</div>
+					<a href="/edit_image/{{img.id}}/"><button class="btn mt-2 btn-primary text-white btn-xl">Edit Image</button></a>
+				</div>
+				<div class="col-md-8">
+					<h4>Related Images</h4>
+					<div class="row">
+						{% for image in similar_images %}
+							<div class="col-md-4">
+								<div class="card card-post card-round">
+									<a href="/image/{{image.id}}/"><img class="card-img-top" src="{{image.image.url}}" alt="Card image cap"></a>
+								</div>
+							</div>
+						{% endfor %}
+					</div>
 				</div>
 			</div>
-			<a href="/edit_image/{{img.id}}/"><button class="btn mt-2 btn-primary text-white btn-xl">Edit Image</button></a>
 		</div>
 	</div>
 

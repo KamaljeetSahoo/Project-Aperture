@@ -54,7 +54,7 @@ def find_similar_tags(ref_word):
             pass
     res = sorted( res, key = lambda res : res[1],reverse = True )
     top_tags = []
-    top = 7
+    top = 8
     for i in range(len(res)):
         top-=1
         if not top:

@@ -94,11 +94,22 @@ def recently_uploaded_view(request):
 def single_image_view(request, image_id):
     if request.user.is_authenticated:
         image = Picture.objects.get(id=image_id)
+        tags = image.tag.all()
+        similar_tags = []
+        for i in tags:
+            similar_tags+=find_similar_tags(i.tag_name)
+        num_images = 9
+        similar_images = []
+        for i in range(len(similar_tags)):
+            if len(similar_images) > num_images:
+                break
+            similar_images += list(similar_tags[i].picture_set.all())
         image.count_view+=1
         image.save()
         context = {
             'img': image,
-            'tags': image.tag.all()
+            'tags': image.tag.all(),
+            'similar_images': set(similar_images)
         }
         return render(request, 'pages/single_view.html', context=context)
     return redirect("login")
@@ -145,7 +156,7 @@ def tag_based_image_search(request):
         corrected_flag = True
     context = {
             'img': set(img),
-            'related_tags': related_tags,
+            'related_tags': related_tags[1:],
             'searched_for': search,
             'corrected_flag': corrected_flag,
             'DidYouMean': corrected_search,
@@ -158,7 +169,7 @@ def tag_click_search(request, tag_id):
     related_tags = find_similar_tags(tag.tag_name)
     context = {
         'img': tag.picture_set.all(),
-        'related_tags': related_tags,
+        'related_tags': related_tags[1:],
         'searched_for': tag.tag_name
     }
     return render(request, 'pages/tag_click_search.html', context=context)

@@ -32,7 +32,8 @@
                         <a href="/image/{{pic.id}}/">
                             <img class="card-img-top" src="{{pic.image.url}}" alt="Card image cap">
                         </a>
-                        <div class="card-body">
+                        <div class="card-body text-center">
+                            <button class="btn btn-rounded btn-success btn-sm mt-1">Views: {{pic.count_view}}</button>
                             <div class="d-flex">
                                 <div class="info-post ml-2">
                                     {% for t in pic.tag.all %}
