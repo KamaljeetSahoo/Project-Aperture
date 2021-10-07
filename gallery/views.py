@@ -4,7 +4,7 @@ from django.http import HttpResponse
 import requests
 from .models import Picture, Tag
 from .forms import PictureForm
-from .utils import generate_tags, reverse_image_generate_tags, correct_spell_and_meaning
+from .utils import generate_tags, reverse_image_generate_tags, correct_spell_and_meaning, find_similar_tags
 import random
 
 # Create your views here.
@@ -129,24 +129,37 @@ def add_tag_to_image(request, image_id):
 
 def tag_based_image_search(request):
     search = request.GET['search_tag'].lower()
-    search = correct_spell_and_meaning(search)
-    search_keywords = search.split(" ")
+    corrected_search = correct_spell_and_meaning(search)
+    related_tags = find_similar_tags(corrected_search)
+    search_keywords = corrected_search.split(" ")
+    image_not_found = False
     img = []
     for word in search_keywords:
         tag = Tag.objects.filter(tag_name__startswith = word)
         for t in tag:
             img += list(t.picture_set.all())
     if len(img) == 0:
-        return redirect('home')
+        image_not_found = True
+    corrected_flag = False
+    if corrected_search!=search:
+        corrected_flag = True
     context = {
-            'img': set(img)
+            'img': set(img),
+            'related_tags': related_tags,
+            'searched_for': search,
+            'corrected_flag': corrected_flag,
+            'DidYouMean': corrected_search,
+            'image_not_found': image_not_found
         }
     return render(request, 'pages/search_results.html', context=context)
 
 def tag_click_search(request, tag_id):
     tag = Tag.objects.get(id=tag_id)
+    related_tags = find_similar_tags(tag.tag_name)
     context = {
-        'img': tag.picture_set.all()
+        'img': tag.picture_set.all(),
+        'related_tags': related_tags,
+        'searched_for': tag.tag_name
     }
     return render(request, 'pages/tag_click_search.html', context=context)
 

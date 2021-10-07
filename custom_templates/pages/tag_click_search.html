@@ -10,7 +10,11 @@
     <div class="content">
 		<div class="page-inner">
 			<!-- Customized Card -->
-			<h4 class="page-title">Search Results</h4>
+            <h3 class="text-success">Related Tags &nbsp; &nbsp;
+                {% for tag in related_tags %}
+                    <a href="/tag_click_search/{{tag.id}}/" class="btn btn-rounded btn-md btn-primary mt-2 mb-4 mr-3" style="color: white !important;">{{tag.tag_name}}</a>
+                {% endfor %}
+            </h3>
 			<div class="row">
                 {% for pic in img %}
                 <div class="col-md-4">

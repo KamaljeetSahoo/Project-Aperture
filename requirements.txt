@@ -1,0 +1,5 @@
+requests==2.26.0
+Django==3.2.8
+gingerit==0.8.2
+Pillow==8.3.2
+python-decouple==3.5

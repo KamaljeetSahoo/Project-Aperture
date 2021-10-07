@@ -10,7 +10,21 @@
     <div class="content">
 		<div class="page-inner">
 			<!-- Customized Card -->
-			<h4 class="page-title">Search Results</h4>
+            {% if image_not_found %}
+                <h2 class="page-title">No Images Found</h2>
+                <a href="{% url 'home' %}"><button class="btn btn-primary">Browse Images</button></a>
+                <div class="mr-3">&nbsp;</div>
+                <a href="{% url 'ImageContribute' %}"><button class="btn btn-primary">Contribute Images</button></a>
+            {% else %}
+            {% if corrected_flag %}
+                <h2><span class="text-danger">Did You Mean ???  &nbsp; &nbsp;</span><span class="text-warning">{{DidYouMean}}</span></h2>
+                <h4>Showing Results for <b class="text-primary">{{DidYouMean}}</b></h4>
+            {% endif %}
+			<h3 class="text-success">Related Tags &nbsp; &nbsp;
+                {% for tag in related_tags %}
+                    <a href="/tag_click_search/{{tag.id}}/" class="btn btn-rounded btn-md btn-primary mt-2 mb-4 mr-3" style="color: white !important;">{{tag.tag_name}}</a>
+                {% endfor %}
+            </h3>
 			<div class="row">
                 {% for pic in img %}
                 <div class="col-md-4">
@@ -32,6 +46,7 @@
                 {% endfor %}
 				
 			</div>
+            {% endif %}
 		</div>
 	</div>
 

@@ -2,6 +2,15 @@ from decouple import config
 import requests
 from django.conf import settings
 from gingerit.gingerit import GingerIt
+from .models import Tag
+
+#similar tag libs
+from gensim.test.utils import common_texts
+import gensim.downloader
+from gensim.models import Word2Vec
+
+glove_vectors = gensim.downloader.load('glove-twitter-50')
+model = Word2Vec(sentences=common_texts , window=5, min_count=1, workers=4)
 
 
 ginger_parser = GingerIt()
@@ -35,7 +44,27 @@ def correct_spell_and_meaning(sentence):
     return ginger_parser.parse(sentence)['result'].lower()
 
 
-
+def find_similar_tags(ref_word):
+    tags = list(Tag.objects.all().values_list('tag_name', flat=True))
+    res = []
+    for word in tags:
+        try:
+            res.append([word,glove_vectors.similarity(ref_word,word)])
+        except:
+            pass
+    res = sorted( res, key = lambda res : res[1],reverse = True )
+    top_tags = []
+    top = 7
+    for i in range(len(res)):
+        top-=1
+        if not top:
+            break
+        top_tags.append(res[i][0])
+    final_tags = []
+    for i in range(len(top_tags)):
+        final_tags.append(Tag.objects.get(tag_name=top_tags[i]))
+    return final_tags
+    
 
 
 # =================== Aurtomation ===================
