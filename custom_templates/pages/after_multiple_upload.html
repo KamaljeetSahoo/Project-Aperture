@@ -1,0 +1,69 @@
+{% extends "layouts/base1.html" %}
+
+{% block title %}Aperture{% endblock title %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+<div class="content">
+    <div class="page-inner">
+        <h4 class="page-title">Edit your tags</h4>
+
+        {% for image in images %}
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card card-post card-round">
+                    <img class="card-img-top" src="{{image.image.url}}" alt="Card image cap">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h3 class="text-danger">Delete Tags</h3>
+                <div class="card card-body">
+                    <div class="d-flex">
+                        <div class="info-post ml-2">
+                            {% for tag in image.tag.all %}
+                            <button class="btn btn-rounded btn-primary btn-md mt-3 mr-3">
+                                {{ tag.tag_name }} &nbsp;
+                                <a href="/multi_delete_tag/{{slug}}/{{tag.id}}/{{image.id}}/" class="text-white">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </button>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="text-success">Add Tags</h3>
+                <div class="card card-body">
+                    <div class="d-flex">
+                        <div class="info-post ml-2">
+                            <div class="row text-center">
+                                <form method="POST" action="/multi_add_tag/{{slug}}/{{image.id}}/">
+                                    <div class="col-md-6">
+                                        {% csrf_token %}
+                                        <input type="text" name="new_tag" class="form-control" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input class="form-control btn btn-rounded btn-primary btn-xl text-white" value="+" type="submit">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+
+<script src="/static/assets/js/setting-demo.js"></script>
+
+{% endblock javascripts %}

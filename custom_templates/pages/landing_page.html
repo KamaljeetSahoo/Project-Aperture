@@ -38,11 +38,9 @@
         <div class="container">
             <nav aria-label="Page navigation example">
                 <ul class="pagination">
-                  <li class="page-item"><a class="page-link btn-primary text-white" href="#">Previous</a></li>
                   {% for pg in pages %}
-                    <li class="page-item"><a class="page-link btn-primary text-white" href="/?pg={{pg}}">{{ pg }}</a></li>
+                    <li class="page-item {% if pg == page_no %}active{% endif %}"><a class="page-link" href="/?pg={{pg}}">{{ pg }}</a></li>
                   {% endfor %}
-                  <li class="page-item"><a class="page-link btn-primary text-white" href="#">Next</a></li>
                 </ul>
               </nav>              
         </div>

@@ -5,7 +5,7 @@
 {% block content %}
     <div class="content">
         <div class="page-inner">
-            <h4 class="page-title">Image Upload</h4>
+            <h4 class="page-title">Single Image Upload</h4>
             <form method="POST" enctype="multipart/form-data" action="/contribute/">
                 {% csrf_token %}
                 {% for field in form %}
@@ -19,6 +19,12 @@
                     <img id="blah" class="card-img-top" src="#" alt="Card image cap">
                 </div>
             </div>
+            <h4 class="page-title">Multiple Image Upload</h4>
+            <form method="POST" enctype="multipart/form-data" action="/multiple_upload/">
+                {% csrf_token %}
+                <input type="file" name="uploaded_images" multiple class="form-control" id="multiple_files" required accept="image/*">
+                <button type="submit" id="multi_btn" class="btn btn-primary btn-md mt-5">Upload Multiple Images</button>
+            </form>
         </div>
     </div>
 {% endblock content %}
@@ -41,5 +47,14 @@
             reader.readAsDataURL(input.files[0]);
         }
     }
+    $("#multiple_files").on("change", function(){
+        if($("#multiple_files")[0].files.length > 5){
+            alert("You can select only 5 images due to API limitations");
+            $("#multi_btn").attr("disabled", true);
+        }
+        else{
+            $("#multi_btn").removeAttr("disabled");
+        }
+    });
 </script>
 {% endblock javascripts %}

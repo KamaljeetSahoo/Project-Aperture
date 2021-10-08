@@ -65,6 +65,74 @@ def contributeImageView(request):
     else:
         return redirect('login')
 
+def multiple_image_upload(request):
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            images = request.FILES.getlist('uploaded_images')
+            final_image_id = []
+            for image in images:
+                obj = Picture(image=image)
+                obj.save()
+                generated_tags = generate_tags(obj.image.url)
+                new_tags = []
+                for tag in generated_tags:
+                    if not Tag.objects.filter(tag_name = tag).exists():
+                        new_tag = Tag(tag_name = tag)
+                        new_tag.save()
+                        new_tags.append(new_tag)
+                    else:
+                        t = Tag.objects.get(tag_name = tag)
+                        new_tags.append(t)
+                for tag in new_tags:
+                    obj.tag.add(tag)
+                final_image_id.append(str(obj.id))
+
+            
+            return redirect('multi-edit-page', slug='-'.join(final_image_id))
+    else:
+        return redirect('login')
+
+def delete_tag_multiple(request, slug, tag_id, image_id):
+    if request.user.is_authenticated:
+        tag = Tag.objects.get(id=tag_id)
+        pic = Picture.objects.get(id=image_id)
+        pic.tag.remove(tag)
+        return redirect("multi-edit-page", slug=slug)
+    else:
+        return redirect('login')
+
+def add_tag_multiple(request, slug, image_id):
+    if request.user.is_authenticated:
+        image = Picture.objects.get(id=image_id)
+        new_tag_name = request.POST['new_tag'].lower()
+        if not Tag.objects.filter(tag_name = new_tag_name).exists():
+            tag = Tag(tag_name = new_tag_name)
+            tag.save()
+            image.tag.add(tag)
+            return redirect("multi-edit-page", slug=slug)
+        else:
+            tag = Tag.objects.get(tag_name = new_tag_name)
+            image.tag.add(tag)
+            return redirect("multi-edit-page", slug=slug)
+        
+    else:
+        return redirect('login')
+
+def multi_edit_page_view(request, slug):
+    if request.user.is_authenticated:
+        image_ids = list(map(int, slug.split("-")))
+        pics = []
+        for id in image_ids:
+            pics.append(Picture.objects.get(id=id))
+
+        context = {
+            'images': pics,
+            'slug': slug
+        }
+        return render(request, 'pages/after_multiple_upload.html', context=context)
+    else:
+        return redirect('login')
+
 def after_upload_view(request, image_id):
     if request.user.is_authenticated:
         context = {
@@ -75,6 +143,7 @@ def after_upload_view(request, image_id):
 
 def homepage(request):
     if request.user.is_authenticated:
+        page_no = None
         try:
             page_no = int(request.GET['pg'])
             pics = list(Picture.objects.all())
@@ -84,7 +153,8 @@ def homepage(request):
             random.shuffle(pics)
         context = {
             'img': pics[:50],
-            'pages': [i+1 for i in range(TOTAL_PAGES)]
+            'pages': [i+1 for i in range(TOTAL_PAGES)],
+            'page_no': page_no
         }
         return render(request, 'pages/landing_page.html', context=context)
     return redirect('login')
@@ -147,40 +217,46 @@ def add_tag_to_image(request, image_id):
         return redirect("login")
 
 def tag_based_image_search(request):
-    search = request.GET['search_tag'].lower()
-    corrected_search = correct_spell_and_meaning(search)
-    related_tags = find_similar_tags(corrected_search)
-    search_keywords = corrected_search.split(" ")
-    image_not_found = False
-    img = []
-    for word in search_keywords:
-        tag = Tag.objects.filter(tag_name__startswith = word)
-        for t in tag:
-            img += list(t.picture_set.all())
-    if len(img) == 0:
-        image_not_found = True
-    corrected_flag = False
-    if corrected_search!=search:
-        corrected_flag = True
-    context = {
-            'img': set(img),
-            'related_tags': related_tags[1:],
-            'searched_for': search,
-            'corrected_flag': corrected_flag,
-            'DidYouMean': corrected_search,
-            'image_not_found': image_not_found
-        }
-    return render(request, 'pages/search_results.html', context=context)
+    if request.user.is_authenticated:
+        search = request.GET['search_tag'].lower()
+        corrected_search = correct_spell_and_meaning(search)
+        related_tags = find_similar_tags(corrected_search)
+        search_keywords = corrected_search.split(" ")
+        image_not_found = False
+        img = []
+        for word in search_keywords:
+            tag = Tag.objects.filter(tag_name__startswith = word)
+            for t in tag:
+                img += list(t.picture_set.all())
+        if len(img) == 0:
+            image_not_found = True
+        corrected_flag = False
+        if corrected_search!=search:
+            corrected_flag = True
+        context = {
+                'img': set(img),
+                'related_tags': related_tags[1:],
+                'searched_for': search,
+                'corrected_flag': corrected_flag,
+                'DidYouMean': corrected_search,
+                'image_not_found': image_not_found
+            }
+        return render(request, 'pages/search_results.html', context=context)
+    else:
+        return redirect('login')
 
 def tag_click_search(request, tag_id):
-    tag = Tag.objects.get(id=tag_id)
-    related_tags = find_similar_tags(tag.tag_name)
-    context = {
-        'img': tag.picture_set.all(),
-        'related_tags': related_tags[1:],
-        'searched_for': tag.tag_name
-    }
-    return render(request, 'pages/tag_click_search.html', context=context)
+    if request.user.is_authenticated:
+        tag = Tag.objects.get(id=tag_id)
+        related_tags = find_similar_tags(tag.tag_name)
+        context = {
+            'img': tag.picture_set.all(),
+            'related_tags': related_tags[1:],
+            'searched_for': tag.tag_name
+        }
+        return render(request, 'pages/tag_click_search.html', context=context)
+    else:
+        return redirect('login')
 
 def reverse_image_search(request):
     if request.user.is_authenticated:
