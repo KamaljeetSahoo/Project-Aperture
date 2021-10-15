@@ -2,7 +2,7 @@ from decouple import config
 import requests
 from django.conf import settings
 from gingerit.gingerit import GingerIt
-from .models import Tag
+from .models import Tag, Caption, Picture
 
 #similar tag libs
 from gensim.test.utils import common_texts
@@ -87,7 +87,7 @@ def find_similar_tags(ref_word):
     
 
 
-# =================== Aurtomation ===================
+# =================== Automation ===================
 import os
 from .models import Picture, Tag
 from PIL import Image
@@ -120,6 +120,28 @@ def automate_upload(folder_path):
             for tag in new_tags:
                 image_obj.tag.add(tag)
             os.remove(path)
+
+def add_captions_to_existing_images():
+    pics = list(Picture.objects.all())
+    for i in range(len(pics)):
+        if len(pics[i].caption.all()) == 0:
+            print(pics[i].id)
+            tags, captions = generate_caption(pics[i].image.url)
+            print(captions)
+            new_captions = []
+            for caption in captions:
+                if not Caption.objects.filter(description = caption).exists():
+                    new_cap = Caption(description = caption)
+                    new_cap.save()
+                    new_captions.append(new_cap)
+                else:
+                    new_cap = Caption.objects.get(description = caption)
+                    new_captions.append(new_cap)
+            for cap in new_captions:
+                pics[i].caption.add(cap)
+        else:
+            print("caption already exists for ", pics[i].id)
+
 
 
 def auxilary_delete_files():

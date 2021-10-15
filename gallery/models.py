@@ -11,6 +11,9 @@ class Tag(models.Model):
 class Caption(models.Model):
     description = models.TextField(default='', blank=True, null=True)
 
+    def __str__(self):
+        return str(self.description)
+
 class Picture(models.Model):
     image = models.ImageField(upload_to = 'image_repository')
     tag = models.ManyToManyField(Tag, blank=True)
