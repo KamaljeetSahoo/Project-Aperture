@@ -89,7 +89,10 @@ def multiple_image_upload(request):
                 obj = Picture(image=image)
                 obj.save()
                 generated_tags = generate_tags(obj.image.url)
+                more_tags, captions = generate_caption(obj.image.url)
+                generated_tags = list(set(generated_tags).union(set(more_tags)))
                 new_tags = []
+                new_captions = []
                 for tag in generated_tags:
                     if not Tag.objects.filter(tag_name = tag).exists():
                         new_tag = Tag(tag_name = tag)
@@ -100,6 +103,18 @@ def multiple_image_upload(request):
                         new_tags.append(t)
                 for tag in new_tags:
                     obj.tag.add(tag)
+
+                for cap in captions:
+                    if not Caption.objects.filter(description = cap).exists():
+                        new_cap = Caption(description = cap)
+                        new_cap.save()
+                        new_captions.append(new_cap)
+                    else:
+                        c = Caption.objects.get(description = cap)
+                        new_captions.append(c)
+                
+                for captions in new_captions:
+                    obj.caption.add(captions)
                 final_image_id.append(str(obj.id))
 
             
