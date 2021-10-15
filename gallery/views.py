@@ -1,9 +1,9 @@
 from django.http.response import JsonResponse
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import Picture, Tag
+from .models import Picture, Tag, Caption
 from .forms import PictureForm
-from .utils import generate_tags, reverse_image_generate_tags, correct_spell_and_meaning, find_similar_tags
+from .utils import generate_tags, reverse_image_generate_tags, correct_spell_and_meaning, find_similar_tags, generate_caption
 import random
 import base64, io
 
@@ -42,7 +42,10 @@ def contributeImageView(request):
                 obj.save()
 
                 generated_tags = generate_tags(obj.image.url)
+                more_tags, captions = generate_caption(obj.image.url)
+                generated_tags = list(set(generated_tags).union(set(more_tags)))
                 new_tags = []
+                new_captions = []
                 for tag in generated_tags:
                     if not Tag.objects.filter(tag_name = tag).exists():
                         new_tag = Tag(tag_name = tag)
@@ -53,6 +56,18 @@ def contributeImageView(request):
                         new_tags.append(t)
                 for tag in new_tags:
                     obj.tag.add(tag)
+
+                for cap in captions:
+                    if not Caption.objects.filter(description = cap).exists():
+                        new_cap = Caption(description = cap)
+                        new_cap.save()
+                        new_captions.append(new_cap)
+                    else:
+                        c = Caption.objects.get(description = cap)
+                        new_captions.append(c)
+                
+                for captions in new_captions:
+                    obj.caption.add(captions)
 
                 return redirect("edit_image", image_id=obj.id)
         else:

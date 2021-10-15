@@ -8,10 +8,14 @@ class Tag(models.Model):
     def __str__(self):
         return str(self.tag_name)
 
+class Caption(models.Model):
+    description = models.TextField(default='', blank=True, null=True)
+
 class Picture(models.Model):
     image = models.ImageField(upload_to = 'image_repository')
     tag = models.ManyToManyField(Tag, blank=True)
     count_view = models.IntegerField(default = 0, blank=True, null=True)
+    caption = models.ManyToManyField(Caption, blank=True)
 
     def save(self):
         super().save()

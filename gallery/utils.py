@@ -17,17 +17,30 @@ ginger_parser = GingerIt()
 
 subscription_key = config('SUBSCRIPTION_KEY')
 endpoint = config('ENDPOINT')
+endpoint_describe = config('ENDPOINT_DESCRIBE')
 
 def generate_tags(url):
     image_data = open(str(settings.BASE_DIR)+url, "rb").read()
-    headers = {'Ocp-Apim-Subscription-Key': subscription_key,
-           'Content-Type': 'application/octet-stream'}
+    headers = {'Ocp-Apim-Subscription-Key': subscription_key,'Content-Type': 'application/octet-stream'}
     response = requests.post(endpoint, headers=headers, data=image_data)
     response = response.json()
     tags = []
     for i in response['tags']:
         tags.append(i['name'])
     return tags
+
+def generate_caption(url):
+    image_data = open(str(settings.BASE_DIR)+url, "rb").read()
+    headers = {'Ocp-Apim-Subscription-Key': subscription_key,'Content-Type': 'application/octet-stream'}
+    response = requests.post(endpoint_describe, headers=headers, data=image_data)
+    response = response.json()
+    tags = []
+    captions = []
+    for i in response['description']['tags']:
+        tags.append(i)
+    for i in response['description']['captions']:
+        captions.append(i['text'])
+    return tags, captions
 
 def reverse_image_generate_tags(image):
     image_data = image.read()
