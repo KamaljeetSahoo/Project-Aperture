@@ -14,6 +14,9 @@
             <div class="col-md-6">
                 <div class="card card-post card-round">
                     <img class="card-img-top" src="{{img.image.url}}" alt="Card image cap">
+                    <div class="card-body text-center">
+                        {{img.caption.all.0.description}}
+                    </div>
                 </div>
             </div>
             <div class="col-md-6">
@@ -44,8 +47,22 @@
                                         <input type="text" name="new_tag" class="form-control">
                                     </div>
                                     <div class="col-md-6">
-                                        <input class="form-control btn btn-rounded btn-primary btn-xl text-white" value="+" type="submit">
+                                        <input class="form-control btn btn-rounded btn-primary btn-xl text-white mt-1" value="+" type="submit">
                                     </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h3 class="text-success">Edit Caption</h3>
+                <div class="card card-body">
+                    <div class="d-flex">
+                        <div class="info-post ml-2">
+                            <div class="row text-center">
+                                <form method="POST" action="/edit_caption/{{img.id}}/">
+                                    {% csrf_token %}
+                                    <input type="text" value="{{img.caption.all.0.description}}" name="new_tag" class="form-control">
+                                    <input class="form-control mt-2 btn btn-rounded btn-primary btn-xl text-white" value="Update Caption" type="submit">
                                 </form>
                             </div>
                         </div>
