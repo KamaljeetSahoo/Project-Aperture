@@ -61,7 +61,7 @@
                             <div class="row text-center">
                                 <form method="POST" action="/edit_caption/{{img.id}}/">
                                     {% csrf_token %}
-                                    <input type="text" value="{{img.caption.all.0.description}}" name="new_tag" class="form-control">
+                                    <input type="text" value="{{img.caption.all.0.description}}" name="updated_caption" class="form-control">
                                     <input class="form-control mt-2 btn btn-rounded btn-primary btn-xl text-white" value="Update Caption" type="submit">
                                 </form>
                             </div>

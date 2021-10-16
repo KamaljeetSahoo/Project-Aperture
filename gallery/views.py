@@ -246,6 +246,20 @@ def add_tag_to_image(request, image_id):
     else:
         return redirect("login")
 
+def update_caption(request, image_id):
+    if request.user.is_authenticated:
+        updated_caption = request.POST['updated_caption']
+        if len(updated_caption) == 0:
+            return redirect("edit_image", image_id=image_id)
+        else:
+            img = Picture.objects.get(id=image_id)
+            caption = list(img.caption.all())[0]
+            caption.description = updated_caption
+            caption.save()
+            return redirect("edit_image", image_id=image_id)
+    else:
+        return redirect('login')
+
 def tag_based_image_search(request):
     if request.user.is_authenticated:
         search = request.GET['search_tag'].lower()
