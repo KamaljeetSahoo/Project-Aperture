@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import Picture, Tag, Caption
 from .forms import PictureForm
-from .utils import generate_tags, reverse_image_generate_tags, correct_spell_and_meaning, find_similar_tags, generate_caption
+from .utils import generate_tags, reverse_image_generate_tags, correct_spell_and_meaning, find_similar_tags, generate_caption, find_similar_captions
 import random
 import base64, io
 
@@ -254,8 +254,14 @@ def update_caption(request, image_id):
         else:
             img = Picture.objects.get(id=image_id)
             caption = list(img.caption.all())[0]
-            caption.description = updated_caption
-            caption.save()
+            if len(caption.picture_set.all())>1:
+                new_cap = Caption(description = updated_caption)
+                new_cap.save()
+                img.caption.remove(caption)
+                img.caption.add(new_cap)
+            else:
+                caption.description = updated_caption
+                caption.save()
             return redirect("edit_image", image_id=image_id)
     else:
         return redirect('login')
@@ -264,6 +270,15 @@ def tag_based_image_search(request):
     if request.user.is_authenticated:
         search = request.GET['search_tag'].lower()
         corrected_search = correct_spell_and_meaning(search)
+        corrected_flag = False
+        if len(corrected_search.split(" "))>=2:    
+            context = caption_based_search(corrected_search)
+            if corrected_search != search:
+                corrected_flag = True
+                context['DidYouMean'] = corrected_search
+            context['corrected_flag'] = corrected_flag
+            context['searched_for'] = search
+            return render(request, 'pages/caption_search.html', context=context)
         related_tags = find_similar_tags(corrected_search)
         search_keywords = corrected_search.split(" ")
         image_not_found = False
@@ -274,7 +289,6 @@ def tag_based_image_search(request):
                 img += list(t.picture_set.all())
         if len(img) == 0:
             image_not_found = True
-        corrected_flag = False
         if corrected_search!=search:
             corrected_flag = True
         context = {
@@ -288,6 +302,26 @@ def tag_based_image_search(request):
         return render(request, 'pages/search_results.html', context=context)
     else:
         return redirect('login')
+
+def caption_based_search(search):
+    similar_captions = find_similar_captions(search)
+    related_captions = []
+    for i in range(20):
+        g = Caption.objects.filter(description=similar_captions[i])
+        if len(g)>=1:
+            related_captions.append(list(g)[0])
+        # else:
+        #     related_captions.append(g)
+    
+    img = []
+    for cap in related_captions:
+        for i in cap.picture_set.all():
+            img.append(i)
+    context = {
+        'img': img
+    }
+    return context
+
 
 def tag_click_search(request, tag_id):
     if request.user.is_authenticated:
