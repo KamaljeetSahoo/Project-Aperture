@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'authentication',
     'gallery',
-    'widget_tweaks'
+    'widget_tweaks',
+    'pdfs'
 ]
 
 MIDDLEWARE = [
