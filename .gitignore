@@ -8,6 +8,8 @@ __pycache__/
 
 .vscode/
 image_repository/
+extracted_images/
+pdf_repository/
 
 # Distribution / packaging
 .Python

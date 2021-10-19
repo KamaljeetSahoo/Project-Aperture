@@ -16,6 +16,7 @@ class PDF_Tag(models.Model):
 class ExtractedImage(models.Model):
     image = models.ImageField(upload_to = "extracted_images/")
     caption = models.ManyToManyField(PDF_Caption, blank=True)
+    tag = models.ManyToManyField(PDF_Tag, blank=True)
 
 class PDF_File(models.Model):
     pdf = models.FileField(upload_to='pdf_repository/')
