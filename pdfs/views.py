@@ -7,7 +7,7 @@ def pdf_explore(request):
 def pdf_upload(request):
     if request.user.is_authenticated:
         uploaded_file = request.FILES['uploaded_pdf_file']
-        print(uploaded_file)
+        
         return redirect('home')
     else:
         return redirect('login')
