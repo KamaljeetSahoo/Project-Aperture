@@ -1,6 +1,6 @@
 {% extends "layouts/base1.html" %}
 
-{% block title %}Add Image{% endblock title %}
+{% block title %}Browse PDFs{% endblock title %}
 
 {% block content %}
     <div class="content">
@@ -24,7 +24,9 @@
                         <div class="row">
                             <div class="col-md-5"></div>
                             <div class="col-md-6">
-                                <button class="btn btn-rounded btn-primary btn-sm mt-1">Browse Contents</button>
+                                <a href="/single_view_pdf/{{pdf.id}}/">
+                                    <button class="btn btn-rounded btn-primary btn-sm mt-1">Browse Contents</button>
+                                </a>
                             </div>
                         </div>
                         <div class="separator-solid"></div>
@@ -35,3 +37,9 @@
         </div>
     </div>
 {% endblock content %}
+
+{% block javascripts %}
+
+<script src="/static/assets/js/setting-demo.js"></script>
+
+{% endblock javascripts %}

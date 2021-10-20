@@ -15,7 +15,11 @@ def pdf_explore(request):
     return render(request, 'pdf_pages/pdf_explore.html', context=context)
 
 def single_pdf_view(request, pdf_id):
-    pass
+    pdf = PDF_File.objects.get(id=pdf_id)
+    context = {
+        'pdf': pdf
+    }
+    return render(request, 'pdf_pages/single_view_pdf.html', context=context)
 
 def pdf_upload(request):
     if request.user.is_authenticated:

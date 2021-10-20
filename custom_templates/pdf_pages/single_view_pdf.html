@@ -1,0 +1,59 @@
+{% extends "layouts/base1.html" %}
+
+{% block title %}Add Image{% endblock title %}
+
+{% block content %}
+    <div class="content">
+        <div class="page-inner">
+            <h4 class="page-title">Single View PDF</h4>
+            <div class="row">
+                <div class="col-md-6 mt-3">
+                    <div class="card card-post card-round">
+                        <div class="car-body text-center">
+                            <embed
+                                src="{{ pdf.pdf.url }}"
+                                type="application/pdf"
+                                frameBorder="0"
+                                scrolling="auto"
+                                width="100%"
+                                height="500px"
+                            ></embed>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        {% for img in pdf.image.all %}
+                        <div class="col-md-6">
+                            <div class="card card-round card-post">
+                                    <img class="card-img-top" src="{{img.image.url}}" alt="Card image cap">
+                                    <div class="card-body text-center">
+                                        <div class="text-center">
+                                            {% for caption in img.caption.all %}
+                                                {{ caption.description }}
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    <div class="separator-solid"></div>
+                                    <div class="d-flex">
+                                        <div class="info-post ml-2 mb-3">
+                                            {% for t in img.tag.all %}
+                                            <button class="btn btn-rounded btn-primary btn-sm mt-1">{{t.tag_name}}</button>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block javascripts %}
+
+<script src="/static/assets/js/setting-demo.js"></script>
+
+{% endblock javascripts %}
