@@ -26,7 +26,9 @@
                         {% for img in pdf.image.all %}
                         <div class="col-md-6">
                             <div class="card card-round card-post">
+                                <a href="/edit_image_pdf/{{img.id}}/">
                                     <img class="card-img-top" src="{{img.image.url}}" alt="Card image cap">
+                                </a>
                                     <div class="card-body text-center">
                                         <div class="text-center">
                                             {% for caption in img.caption.all %}

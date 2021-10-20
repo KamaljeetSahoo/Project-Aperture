@@ -59,3 +59,16 @@ def pdf_upload_view(request):
         return render(request, 'pdf_pages/pdf_upload.html')
     else:
         return redirect('login')
+
+def edit_page_view(request, image_id):
+    img = ExtractedImage.objects.get(id=image_id)
+    context = {
+        'img': img,
+    }
+    return render(request, 'pdf_pages/edit_caption_tags.html', context=context)
+
+def delete_tag_from_image(request, tag_id, image_id):
+    pass
+
+def add_tag_to_image(request, image_id):
+    pass
