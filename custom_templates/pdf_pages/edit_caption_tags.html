@@ -55,7 +55,7 @@
                         <div class="d-flex">
                             <div class="info-post ml-2">
                                 <div class="row text-center">
-                                    <form method="POST" action="/edit_caption/{{img.id}}/">
+                                    <form method="POST" action="/update_caption_image_pdf/{{img.id}}/">
                                         {% csrf_token %}
                                         <input type="text" value="{{img.caption.all.0.description}}" name="updated_caption" class="form-control">
                                         <input class="form-control mt-2 btn btn-rounded btn-primary btn-xl text-white" value="Update Caption" type="submit">
