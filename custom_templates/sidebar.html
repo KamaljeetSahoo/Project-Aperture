@@ -35,7 +35,7 @@
                 <li class="nav-item {% if 'index' in segment %} active {% endif %}">
                     <a  href="{% url 'home' %}">
                         <i class="fas fa-home"></i>
-                        <p>Browse</p>
+                        <p>Browse Images</p>
                     </a>
                     <a href="{% url 'ImageContribute' %}">
                         <i class="fas fa-upload"></i>
@@ -52,6 +52,10 @@
                     <a href="{% url 'tag_dashboard' %}">
                         <i class="fas fa-chart-line"></i>
                         <p>Tag Analytics</p>
+                    </a>
+                    <a href="{% url 'explore_pdfs' %}">
+                        <i class="fas fa-book"></i>
+                        <p>Explore PDFs</p>
                     </a>
                     <a href="{% url 'upload_pdf_view' %}">
                         <i class="fas fa-book"></i>

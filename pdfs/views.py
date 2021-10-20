@@ -8,6 +8,13 @@ from gallery.utils import generate_caption, generate_tags
 
 # Create your views here.
 def pdf_explore(request):
+    pdfs = list(PDF_File.objects.all())
+    context = {
+        'pdfs': pdfs
+    }
+    return render(request, 'pdf_pages/pdf_explore.html', context=context)
+
+def single_pdf_view(request, pdf_id):
     pass
 
 def pdf_upload(request):

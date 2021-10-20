@@ -1,0 +1,37 @@
+{% extends "layouts/base1.html" %}
+
+{% block title %}Add Image{% endblock title %}
+
+{% block content %}
+    <div class="content">
+        <div class="page-inner">
+            <h4 class="page-title">Explore PDFs</h4>
+            <div class="row">
+                {% for pdf in pdfs %}
+                <div class="col-md-6 mt-3">
+                    <div class="card card-post card-round">
+                        <div class="car-body text-center">
+                            <embed
+                                src="{{ pdf.pdf.url }}"
+                                type="application/pdf"
+                                frameBorder="0"
+                                scrolling="auto"
+                                width="100%"
+                                height="500px"
+                            ></embed>
+                        </div>
+                        <div class="separator-solid"></div>
+                        <div class="row">
+                            <div class="col-md-5"></div>
+                            <div class="col-md-6">
+                                <button class="btn btn-rounded btn-primary btn-sm mt-1">Browse Contents</button>
+                            </div>
+                        </div>
+                        <div class="separator-solid"></div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock content %}
