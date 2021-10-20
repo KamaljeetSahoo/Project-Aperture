@@ -23,7 +23,7 @@
                                 {% for tag in img.tag.all %}
                                 <button class="btn btn-rounded btn-primary btn-md mt-3 mr-3">
                                     {{ tag.tag_name }} &nbsp;
-                                    <a href="/delete_tag/{{tag.id}}/{{img.id}}/" class="text-white">
+                                    <a href="/delete_tag_pdf_image/{{tag.id}}/{{img.id}}/" class="text-white">
                                         <i class="fa fa-times"></i>
                                     </a>
                                 </button>
@@ -37,7 +37,7 @@
                         <div class="d-flex">
                             <div class="info-post ml-2">
                                 <div class="row text-center">
-                                    <form method="POST" action="/add_tag_to_image/{{img.id}}/">
+                                    <form method="POST" action="/add_tag_image_pdf/{{img.id}}/">
                                         <div class="col-md-6">
                                             {% csrf_token %}
                                             <input type="text" name="new_tag" class="form-control">

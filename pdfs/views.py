@@ -61,14 +61,35 @@ def pdf_upload_view(request):
         return redirect('login')
 
 def edit_page_view(request, image_id):
-    img = ExtractedImage.objects.get(id=image_id)
-    context = {
-        'img': img,
-    }
-    return render(request, 'pdf_pages/edit_caption_tags.html', context=context)
+    if request.user.is_authenticated:
+        img = ExtractedImage.objects.get(id=image_id)
+        context = {
+            'img': img,
+        }
+        return render(request, 'pdf_pages/edit_caption_tags.html', context=context)
+    else:
+        return redirect('login')
 
 def delete_tag_from_image(request, tag_id, image_id):
-    pass
+    if request.user.is_authenticated:
+        img = ExtractedImage.objects.get(id=image_id)
+        tag = PDF_Tag.objects.get(id=tag_id)
+        img.tag.remove(tag)
+        return redirect('edit_pdf_image_view', image_id=image_id)
+    else:
+        return redirect('login')
 
 def add_tag_to_image(request, image_id):
-    pass
+    if request.user.is_authenticated:
+        print(request.POST['new_tag'])
+        img = ExtractedImage.objects.get(id=image_id)
+        new_tag = request.POST['new_tag']
+        if PDF_Tag.objects.filter(tag_name=new_tag).exists():
+            img.tag.add(PDF_Tag.objects.get(tag_name = new_tag))
+        else:
+            new = PDF_Tag(tag_name = new_tag)
+            new.save()
+            img.tag.add(new)
+        return redirect('edit_pdf_image_view', image_id=image_id)
+    else:
+        return render('login')
