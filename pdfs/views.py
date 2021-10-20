@@ -3,8 +3,8 @@ import os
 
 from .models import PDF_File, PDF_Caption, PDF_Tag, ExtractedImage
 
-from .utils import extract_images
-from gallery.utils import generate_caption, generate_tags
+from .utils import extract_images, similar_captions
+from gallery.utils import generate_caption, generate_tags, correct_spell_and_meaning
 
 # Create your views here.
 def pdf_explore(request):
@@ -105,5 +105,44 @@ def update_caption_pdf_image(request, image_id):
             return redirect('edit_pdf_image_view', image_id=image_id)
         else:
             return redirect('edit_pdf_image_view', image_id=image_id)
+    else:
+        return redirect('login')
+
+def search_pdf_view(request):
+    if request.user.is_authenticated:
+        return render(request, 'pdf_pages/pdf_search.html')
+    else:
+        return redirect('login')
+
+def search_results_pdf(request):
+    if request.user.is_authenticated:
+        
+        corrected = False
+
+        search_query = request.POST['search'].lower()
+        corrected_query = correct_spell_and_meaning(search_query)
+        if corrected_query != search_query:
+            corrected = True
+        
+        related_images = []
+        if len(corrected_query.split(' ')) >= 1:
+            #caption search
+            related_captions = similar_captions(corrected_query)[0:5]
+            for caption in related_captions:
+                cap = PDF_Caption.objects.filter(description = caption)[0]
+                for img in cap.extractedimage_set.all():
+                    related_images.append(img)
+        else:
+            #tag search
+            pass
+
+
+        context = {
+            'corrected': corrected,
+            'search_results': True,
+            'DidYouMean': corrected_query,
+            'related_images': related_images
+        }
+        return render(request, 'pdf_pages/pdf_search.html', context=context)
     else:
         return redirect('login')

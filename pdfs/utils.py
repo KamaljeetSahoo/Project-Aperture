@@ -4,7 +4,9 @@ from django.conf import settings
 import os
 
 from .models import PDF_File, PDF_Caption, PDF_Tag, ExtractedImage
-from gallery.utils import generate_tags
+from gallery.utils import sentence_similarity_model, model
+from sklearn.metrics.pairwise import cosine_similarity
+
 
 alpha = []
 for i in range(26):
@@ -76,3 +78,13 @@ def extract_images(file_path):
         except:
             pass
     return new_files
+
+def similar_captions(searched_caption):
+    all_captions = list(PDF_Caption.objects.all().values_list('description', flat=True))
+    all_captions_vecs = sentence_similarity_model.encode(all_captions)
+    searched_vec = sentence_similarity_model.encode([searched_caption])
+    similarities = cosine_similarity(searched_vec, all_captions_vecs)
+    vectors_with_similarity_factor = [[similarities[0][i],all_captions[i]] for i in range(len(similarities[0]))]
+    vectors_with_similarity_factor = sorted(vectors_with_similarity_factor, key = lambda x: x[0], reverse=True)
+    sorted_captions = [i[1] for i in vectors_with_similarity_factor]
+    return sorted_captions
