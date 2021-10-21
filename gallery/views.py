@@ -1,6 +1,8 @@
 from django.http.response import JsonResponse
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+
+from pdfs.utils import similar_captions
 from .models import Picture, Tag, Caption
 from .forms import PictureForm
 from .utils import generate_tags, reverse_image_generate_tags, correct_spell_and_meaning, find_similar_tags, generate_caption, find_similar_captions
@@ -202,22 +204,17 @@ def recently_uploaded_view(request):
 def single_image_view(request, image_id):
     if request.user.is_authenticated:
         image = Picture.objects.get(id=image_id)
-        tags = image.tag.all()
-        similar_tags = []
-        for i in tags:
-            similar_tags+=find_similar_tags(i.tag_name)
-        num_images = 9
+        caption = image.caption.all()[0]
+        similar_captions = find_similar_captions(caption.description)
         similar_images = []
-        for i in range(len(similar_tags)):
-            if len(similar_images) > num_images:
-                break
-            similar_images += list(similar_tags[i].picture_set.all())
+        for i in range(len(similar_captions)):
+            similar_images.append(list(Caption.objects.filter(description = similar_captions[i]))[0].picture_set.all()[0])
         image.count_view+=1
         image.save()
         context = {
             'img': image,
             'tags': image.tag.all(),
-            'similar_images': set(similar_images)
+            'similar_images': set(similar_images[0:10])
         }
         return render(request, 'pages/single_view.html', context=context)
     return redirect("login")
