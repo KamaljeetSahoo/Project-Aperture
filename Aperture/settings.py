@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'authentication',
     'gallery',
     'widget_tweaks',
-    'pdfs'
+    'pdfs',
+    'videos'
 ]
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
