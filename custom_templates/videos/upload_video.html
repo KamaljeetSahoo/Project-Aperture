@@ -9,7 +9,7 @@
             <form method="POST" enctype="multipart/form-data" action="{% url 'video_upload' %}">
                 {% csrf_token %}
                 <input type="file" accept="video/*" name="uploaded_video_file" required>
-                <button class="btn btn-xl btn-primary" type="submit">Upload PDF</button>
+                <button class="btn btn-xl btn-primary" type="submit">Upload Video</button>
             </form>
         </div>
     </div>
