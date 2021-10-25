@@ -1,0 +1,41 @@
+{% extends "layouts/base1.html" %}
+
+{% block title %}Browse Videos{% endblock title %}
+
+{% block content %}
+    <div class="content">
+        <div class="page-inner">
+            <h4 class="page-title">Browse Videos</h4>
+            <div class="row">
+                {% for video in videos %}
+                <div class="col-md-6 mt-3">
+                    <div class="card card-post card-round">
+                        <div class="car-body text-center">
+                            <video width="320" height="240" controls>
+                                <source src="{{video.video.url}}" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                        <div class="separator-solid"></div>
+                        <div class="row">
+                            <div class="col-md-5"></div>
+                            <div class="col-md-6">
+                                <a href="">
+                                    <button class="btn btn-rounded btn-primary btn-sm mt-1">Browse Contents</button>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="separator-solid"></div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block javascripts %}
+
+<script src="/static/assets/js/setting-demo.js"></script>
+
+{% endblock javascripts %}

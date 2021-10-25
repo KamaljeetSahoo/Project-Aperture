@@ -13,6 +13,7 @@ pdf_repository/
 video_repository/
 clipped/
 temp_extracted_frames/
+extracted_video_frames/
 
 # Distribution / packaging
 .Python

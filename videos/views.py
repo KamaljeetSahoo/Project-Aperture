@@ -54,7 +54,11 @@ def handle_upload_video(request):
 
 def browse_videos(request):
     if request.user.is_authenticated:
-        return render(request, 'videos/browse_videos.html')
+        videos = Video.objects.all()
+        context = {
+            'videos': videos
+        }
+        return render(request, 'videos/browse_videos.html', context=context)
     else:
         return redirect('login')
 
