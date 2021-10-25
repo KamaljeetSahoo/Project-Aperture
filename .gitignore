@@ -10,6 +10,9 @@ __pycache__/
 image_repository/
 extracted_images/
 pdf_repository/
+video_repository/
+clipped/
+temp_extracted_frames/
 
 # Distribution / packaging
 .Python
