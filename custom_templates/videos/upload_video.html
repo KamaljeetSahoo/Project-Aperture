@@ -6,7 +6,7 @@
     <div class="content">
         <div class="page-inner">
             <h4 class="page-title">Upload Video file</h4>
-            <form method="POST" enctype="multipart/form-data" action="/handle_upload">
+            <form method="POST" enctype="multipart/form-data" action="/handle_upload/">
                 {% csrf_token %}
                 <input type="file" accept="video/*" name="uploaded_video_file" required>
                 <button class="btn btn-xl btn-primary" type="submit">Upload Video</button>
