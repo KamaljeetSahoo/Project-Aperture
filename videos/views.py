@@ -100,3 +100,13 @@ def add_tag_video_frame(request, image_id):
         return redirect('edit_video_frame', image_id=image_id)
     else:
         return render('login')
+
+
+def delete_tag_video_frame(request, tag_id, image_id):
+    if request.user.is_authenticated:
+        img = ExtractedFrame.objects.get(id=image_id)
+        tag = FrameTag.objects.get(id=tag_id)
+        img.tag.remove(tag)
+        return redirect('edit_video_frame', image_id=image_id)
+    else:
+        return redirect('login')
