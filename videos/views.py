@@ -85,3 +85,18 @@ def edit_video_frame_view(request, image_id):
         return render(request, 'videos/edit_contents.html', context=context)
     else:
         return redirect('login')
+
+
+def add_tag_video_frame(request, image_id):
+    if request.user.is_authenticated:
+        img = ExtractedFrame.objects.get(id=image_id)
+        new_tag = request.POST['new_tag']
+        if FrameTag.objects.filter(tag_name=new_tag).exists():
+            img.tag.add(FrameTag.objects.get(tag_name=new_tag))
+        else:
+            new = FrameTag(tag_name=new_tag)
+            new.save()
+            img.tag.add(new)
+        return redirect('edit_video_frame', image_id=image_id)
+    else:
+        return render('login')
