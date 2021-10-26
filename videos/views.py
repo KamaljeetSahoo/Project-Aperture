@@ -64,6 +64,10 @@ def browse_videos(request):
 
 def view_single_video_content(request, video_id):
     if request.user.is_authenticated:
-        pass
+        video = Video.objects.get(id=video_id)
+        context = {
+            'video': video,
+        }
+        return render(request, 'videos/single_view_video.html', context=context)
     else:
         return redirect('login')

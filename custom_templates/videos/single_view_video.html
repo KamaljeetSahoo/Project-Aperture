@@ -1,0 +1,57 @@
+{% extends "layouts/base1.html" %}
+
+{% block title %}View Video{% endblock title %}
+
+{% block content %}
+    <div class="content">
+        <div class="page-inner">
+            <h4 class="page-title">Single View Video</h4>
+            <div class="row">
+                <div class="col-md-6 mt-3">
+                    <div class="card card-post card-round">
+                        <div class="car-body text-center">
+                            <video width="320" height="240" controls>
+                                <source src="{{video.video.url}}" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        {% for img in video.extracted_image.all %}
+                        <div class="col-md-6">
+                            <div class="card card-round card-post">
+                                <a href="">
+                                    <img class="card-img-top" src="{{img.image.url}}" alt="Card image cap">
+                                </a>
+                                    <div class="card-body text-center">
+                                        <div class="text-center">
+                                            {% for caption in img.caption.all %}
+                                                {{ caption.description }}
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    <div class="separator-solid"></div>
+                                    <div class="d-flex">
+                                        <div class="info-post ml-2 mb-3">
+                                            {% for t in img.tag.all %}
+                                            <button class="btn btn-rounded btn-primary btn-sm mt-1">{{t.tag_name}}</button>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block javascripts %}
+
+<script src="/static/assets/js/setting-demo.js"></script>
+
+{% endblock javascripts %}
