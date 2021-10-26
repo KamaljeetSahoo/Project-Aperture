@@ -5,9 +5,9 @@ from PIL import Image
 from io import BytesIO
 from django.core.files.base import ContentFile
 
-from gallery.utils import generate_caption, generate_tags
+from gallery.utils import generate_caption, generate_tags, correct_spell_and_meaning
 from .models import Video, ExtractedFrame, FrameTag, FrameCaption
-from .utils import extract_frames_from_video
+from .utils import extract_frames_from_video, similar_frame_captions
 
 # Create your views here.
 
@@ -49,6 +49,9 @@ def handle_upload_video(request):
                 else:
                     t = FrameTag.objects.get(tag_name=tag)
                     img.tag.add(t)
+        to_be_removed = os.listdir('temp_extracted_frames')
+        for file in to_be_removed:
+            os.remove('temp_extracted_frames/'+file)
 
         return redirect('browse_videos')
     else:
@@ -136,6 +139,31 @@ def video_search_view(request):
 
 def video_search_results(request):
     if request.user.is_authenticated:
-        pass
+        corrected = False
+
+        search_query = request.POST['search'].lower()
+        corrected_query = correct_spell_and_meaning(search_query)
+        if corrected_query != search_query:
+            corrected = True
+
+        related_images = []
+        if len(corrected_query.split(' ')) >= 1:
+            # caption search
+            related_captions = similar_frame_captions(corrected_query)[0:5]
+            for caption in related_captions:
+                cap = FrameCaption.objects.filter(description=caption)[0]
+                for img in cap.extractedframe_set.all():
+                    related_images.append(img)
+        else:
+            # tag search
+            pass
+
+        context = {
+            'corrected': corrected,
+            'search_results': True,
+            'DidYouMean': corrected_query,
+            'related_images': related_images
+        }
+        return render(request, 'videos/video_search.html', context=context)
     else:
         return redirect('login')

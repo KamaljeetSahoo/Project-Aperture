@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import browse_videos, video_upload, handle_upload_video, view_single_video_content, edit_video_frame_view
-from .views import add_tag_video_frame, delete_tag_video_frame, update_caption_video_frame, video_search_view
+from .views import add_tag_video_frame, delete_tag_video_frame, update_caption_video_frame, video_search_view, video_search_results
 
 urlpatterns = [
     path('videos/', browse_videos, name="browse_videos"),
@@ -13,5 +13,6 @@ urlpatterns = [
     path('delete_tag_video_frame/<int:tag_id>/<int:image_id>/',
          delete_tag_video_frame),
     path('update_caption_video_frame/<int:image_id>/', update_caption_video_frame),
-    path('video_search/', video_search_view, name='video_search')
+    path('video_search/', video_search_view, name='video_search'),
+    path('video_search_results/', video_search_results)
 ]
