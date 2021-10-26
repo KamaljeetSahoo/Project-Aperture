@@ -125,3 +125,17 @@ def update_caption_video_frame(request, image_id):
             return redirect('edit_video_frame', image_id=image_id)
     else:
         return redirect('login')
+
+
+def video_search_view(request):
+    if request.user.is_authenticated:
+        return render(request, 'videos/video_search.html')
+    else:
+        return redirect('login')
+
+
+def video_search_results(request):
+    if request.user.is_authenticated:
+        pass
+    else:
+        return redirect('login')
