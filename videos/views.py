@@ -110,3 +110,18 @@ def delete_tag_video_frame(request, tag_id, image_id):
         return redirect('edit_video_frame', image_id=image_id)
     else:
         return redirect('login')
+
+
+def update_caption_video_frame(request, image_id):
+    if request.user.is_authenticated:
+        img = ExtractedFrame(id=image_id)
+        updated_caption = request.POST['updated_caption']
+        if len(updated_caption) != 0:
+            current_caption = list(img.caption.all())[0]
+            current_caption.description = updated_caption
+            current_caption.save()
+            return redirect('edit_video_frame', image_id=image_id)
+        else:
+            return redirect('edit_video_frame', image_id=image_id)
+    else:
+        return redirect('login')
