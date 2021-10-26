@@ -22,7 +22,7 @@
                         {% for img in video.extracted_image.all %}
                         <div class="col-md-6">
                             <div class="card card-round card-post">
-                                <a href="">
+                                <a href="/edit_video_frame/{{img.id}}/">
                                     <img class="card-img-top" src="{{img.image.url}}" alt="Card image cap">
                                 </a>
                                     <div class="card-body text-center">
