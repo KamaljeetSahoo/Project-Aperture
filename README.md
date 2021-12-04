@@ -16,7 +16,15 @@ Contents
 
 ### Installation
 ---
+1. Clone the repository
+2. Open the Project Path where manage.py is present in python console. (ex- C:\Users\sanim\Desktop\EYGDS\Project-Aperture)
+3. Create a .env file where the subscription and API key need to go.
+4. Run `python manage.py makemigrations` then `python manage.py migrate`.
+5. In python console type, `python manage.py runserver`
+6. The website link should be displayed on the side. Copy it and paste in the web browser.
 
+`.env file datas hasn't been pushed`
+<br/>
 
 
 ### Tech-Stacks Used
