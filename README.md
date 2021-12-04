@@ -1,4 +1,4 @@
-![image](https://user-images.githubusercontent.com/64356997/144702352-1ddfbcf7-ddcc-4d4d-802a-35618d7102bf.png)
+![Capture](https://user-images.githubusercontent.com/64356997/144714878-e98f0a35-f6c1-4693-8ff5-3e7fad7a7a67.PNG)
 # Project-Aperture
 ### `THEME : IMAGE SEARCH AND ANALYSIS`
 
@@ -31,13 +31,13 @@ You can provide your own env file of your razorpay account and mongodb database.
 ---
 <ol>
 <li> Django Templating language
-<li>Node
+<li>Django Rest Framework 
 <br/>
-<li>Express
+<li>MySQL lite 
 <br/>
-<li>EJS
+<li>OpenCV
 <br/>
-<li>API (RAZORPAY PAYMENT API)
+<li>Azure Cognetive services
 <br/>
 </ol>
 
@@ -46,7 +46,7 @@ You can provide your own env file of your razorpay account and mongodb database.
 <ol>
     
 <li>Reverse Image Search – If the user intends to find relevant images to the one he uploads, we have also provided him with the option to do so.
-</li></br
+</li></br>
 <li>Search by keyword - One can still find the appropriate images even if they commit a spelling mistake. The misspelled word gets converted to the most meaningful word present in database and results are displayed accordingly.
 </li></br>
 <li>Contribute - We have provided an option to the user where they can either choose to upload a single image or in a bulk
@@ -70,8 +70,6 @@ You can provide your own env file of your razorpay account and mongodb database.
 
 </li></br>
 <liSearch image in pdf- The user can search and images and f the image is present in a pdf then they wil be shown the pdf where there will be option for the user to download the pdf as well.
-![image](https://user-images.githubusercontent.com/64356997/144714745-b5d04468-b16c-4483-8ad6-831117f32d95.png)
-
 </li></br>
 </ol>
 
