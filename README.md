@@ -77,18 +77,18 @@ Some of the snapshots of website.
 </br>
 ![Picture1](https://user-images.githubusercontent.com/64356997/144715261-c9c9e9dd-f681-4d87-974c-cf0807f47748.png) 
 
-![Picture2](https://user-images.githubusercontent.com/64356997/144715263-58b35fb6-a5d1-4324-b361-1711ed288549.png) - Contribute
+![Picture2](https://user-images.githubusercontent.com/64356997/144715263-58b35fb6-a5d1-4324-b361-1711ed288549.png) <br/> - Contribute
 & Recently Uploaded 
 
-![Picture3](https://user-images.githubusercontent.com/64356997/144715264-51b1fd59-8090-42b7-b1ef-359e67779f1c.png) - Spell Correction (Did you Mean)
+![Picture3](https://user-images.githubusercontent.com/64356997/144715264-51b1fd59-8090-42b7-b1ef-359e67779f1c.png) <br/> - Spell Correction (Did you Mean)
 & Related tags
 
-![Picture4](https://user-images.githubusercontent.com/64356997/144715269-53820aad-a8e1-492d-b95c-97304a90ec8f.png) - Edit/Delete Tags
+![Picture4](https://user-images.githubusercontent.com/64356997/144715269-53820aad-a8e1-492d-b95c-97304a90ec8f.png) <br/> - Edit/Delete Tags
 
-![Picture5](https://user-images.githubusercontent.com/64356997/144715270-62a7d224-2413-4a7c-bb85-6d0ac5b2794e.png) - Similar Image band on tap
+![Picture5](https://user-images.githubusercontent.com/64356997/144715270-62a7d224-2413-4a7c-bb85-6d0ac5b2794e.png) <br/> - Similar Image band on tap
 & Most Viewed
 
-![Picture6](https://user-images.githubusercontent.com/64356997/144715272-7901d89b-1d16-4018-ac50-39f4ad5f99f3.png) - Phrase search from images
+![Picture6](https://user-images.githubusercontent.com/64356997/144715272-7901d89b-1d16-4018-ac50-39f4ad5f99f3.png) <br/> - Phrase search from images
 
-![Picture7](https://user-images.githubusercontent.com/64356997/144715273-51e720c3-46fe-4a65-9585-d4048dd5b393.png) - Image extraction from pdfs
+![Picture7](https://user-images.githubusercontent.com/64356997/144715273-51e720c3-46fe-4a65-9585-d4048dd5b393.png) <br/> - Image extraction from pdfs
 & Search image in pdf
