@@ -18,14 +18,14 @@ Contents
 ---
 
 1. Clone the repository
-2. Open with code editor and run following commands on the terminal.
-    + ` npm install `
-    + ` node index.js`
-3. Open the localhost link.
+2. Open the Project Path where manage.py is present in python console. (ex- C:\Users\sanim\Desktop\EYGDS\Project-Aperture)
+3. Create a .env file where the subscription and API key need to go.
+4. Run `python manage.py makemigrations` then `python manage.py migrate`.
+5. In python console type, `python manage.py runserver`
+6. 
 
 `.env file datas hasn't been pushed`
 <br/>
-You can provide your own env file of your razorpay account and mongodb database.
 
 ### Tech-Stacks Used
 ---
@@ -75,4 +75,4 @@ You can provide your own env file of your razorpay account and mongodb database.
 ---
 Some of the snapshots of website.
 </br>
-![search](https://user-images.githubusercontent.com/68842515/144702889-4bcac9cc-c8db-487c-b090-a0d0d4b1f637.jpeg) - Search Feature
+
