@@ -22,7 +22,7 @@ Contents
 3. Create a .env file where the subscription and API key need to go.
 4. Run `python manage.py makemigrations` then `python manage.py migrate`.
 5. In python console type, `python manage.py runserver`
-6. 
+6. The website link should be displayed on the side. Copy it and paste in the web browser.
 
 `.env file datas hasn't been pushed`
 <br/>
@@ -67,7 +67,7 @@ Contents
 </li></br>
 <li>Image extraction from pdfs  – If the user wants to see the images in a pdf, all they have to do is upload the pdf and then the images are extracted and displayed.
 </li></br>
-<liSearch image in pdf- The user can search and images and f the image is present in a pdf then they wil be shown the pdf where there will be option for the user to download the pdf as well.
+<li>Search image in pdf- The user can search and images and f the image is present in a pdf then they wil be shown the pdf where there will be option for the user to download the pdf as well.
 </li></br>
 </ol>
 
@@ -75,4 +75,20 @@ Contents
 ---
 Some of the snapshots of website.
 </br>
+![Picture1](https://user-images.githubusercontent.com/64356997/144715261-c9c9e9dd-f681-4d87-974c-cf0807f47748.png) 
 
+![Picture2](https://user-images.githubusercontent.com/64356997/144715263-58b35fb6-a5d1-4324-b361-1711ed288549.png) - Contribute
+& Recently Uploaded 
+
+![Picture3](https://user-images.githubusercontent.com/64356997/144715264-51b1fd59-8090-42b7-b1ef-359e67779f1c.png) - Spell Correction (Did you Mean)
+& Related tags
+
+![Picture4](https://user-images.githubusercontent.com/64356997/144715269-53820aad-a8e1-492d-b95c-97304a90ec8f.png) - Edit/Delete Tags
+
+![Picture5](https://user-images.githubusercontent.com/64356997/144715270-62a7d224-2413-4a7c-bb85-6d0ac5b2794e.png) - Similar Image band on tap
+& Most Viewed
+
+![Picture6](https://user-images.githubusercontent.com/64356997/144715272-7901d89b-1d16-4018-ac50-39f4ad5f99f3.png) - Phrase search from images
+
+![Picture7](https://user-images.githubusercontent.com/64356997/144715273-51e720c3-46fe-4a65-9585-d4048dd5b393.png) - Image extraction from pdfs
+& Search image in pdf
