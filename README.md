@@ -66,8 +66,6 @@ You can provide your own env file of your razorpay account and mongodb database.
 <li>Phrase search from images – The user can search a phase (with more than 2 words) and the related image will be displayed. Even if they make a spelling mistake or grammatical error, our model corrects it.
 </li></br>
 <li>Image extraction from pdfs  – If the user wants to see the images in a pdf, all they have to do is upload the pdf and then the images are extracted and displayed.
-![image](https://user-images.githubusercontent.com/64356997/144714736-3e1536c3-2a38-4cfa-bb90-c24a742012f6.png)
-
 </li></br>
 <liSearch image in pdf- The user can search and images and f the image is present in a pdf then they wil be shown the pdf where there will be option for the user to download the pdf as well.
 </li></br>
